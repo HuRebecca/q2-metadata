@@ -7,9 +7,11 @@
 # ----------------------------------------------------------------------------
 
 import qiime2.plugin
-from qiime2.plugin import MetadataColumn, Numeric
+from qiime2.plugin import MetadataColumn, Numeric, Metadata
 
 import q2_metadata
+
+import pandas as pd
 
 from q2_metadata import tabulate, distance_matrix
 from q2_types.distance_matrix import DistanceMatrix
@@ -41,6 +43,22 @@ plugin.methods.register_function(
                 'Tip: the distance matrix produced by this method can be used '
                 'as input to the Mantel test available in `q2-diversity`.'
 )
+
+
+def test_function(metadata: Metadata) -> Metadata:
+    return pd.DataFrame()
+
+
+plugin.methods.register_function(
+    function=test_function,
+    inputs={},
+    parameters={'metadata': Metadata},
+    parameter_descriptions={'metadata': 'The sample metadata.'},
+    outputs=[('curated_metadata', Metadata)],
+    name='Normalize metadata',
+    description='Normalize metadata according to a series of rules.'
+)
+
 
 plugin.visualizers.register_function(
     function=tabulate,
