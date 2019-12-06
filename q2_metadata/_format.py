@@ -6,20 +6,18 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 
-import skbio.io
 import qiime2.plugin.model as model
 
-from ..plugin_setup import plugin
+from .plugin_setup import plugin
 
 
-class NewickFormat(model.TextFileFormat):
+class MetadataFormat(model.TextFileFormat):
     def sniff(self):
-        sniffer = skbio.io.io_registry.get_sniffer('newick')
-        return sniffer(str(self))[0]
+        return True
 
 
-NewickDirectoryFormat = model.SingleFileDirectoryFormat(
-    'NewickDirectoryFormat', 'tree.nwk', NewickFormat)
+MetadataDirectoryFormat = model.SingleFileDirectoryFormat(
+    'MetadataDirectoryFormat', 'metadata.tsv', MetadataFormat)
 
 
-plugin.register_formats(NewickFormat, NewickDirectoryFormat)
+plugin.register_formats(MetadataFormat, MetadataDirectoryFormat)

@@ -19,7 +19,8 @@ from q2_types.distance_matrix import DistanceMatrix
 
 plugin = qiime2.plugin.Plugin(
     name='metadata',
-    version=q2_metadata.__version__,
+    version='testversion',
+    # version=q2_metadata.__version__,
     website='https://github.com/qiime2/q2-metadata',
     package='q2_metadata',
     user_support_text=None,
@@ -46,7 +47,7 @@ plugin.methods.register_function(
 
 
 def test_function(metadata: Metadata) -> Metadata:
-    return pd.DataFrame()
+    return Metadata()
 
 
 plugin.methods.register_function(
@@ -54,14 +55,15 @@ plugin.methods.register_function(
     inputs={},
     parameters={'metadata': Metadata},
     parameter_descriptions={'metadata': 'The sample metadata.'},
-    outputs=[('curated_metadata', Metadata)],
+    outputs=[('curated_metadata', MetadataX)],
+    output_descriptions={'curated_metadata': 'The curated sample metadata.'},
     name='Normalize metadata',
     description='Normalize metadata according to a series of rules.'
 )
 
 
 plugin.visualizers.register_function(
-    function=tabulate,
+    function=q2_metadata.tabulate,
     inputs={},
     parameters={
         'input': qiime2.plugin.Metadata,
@@ -77,3 +79,17 @@ plugin.visualizers.register_function(
                 'visualization supports interactive filtering, sorting, and '
                 'exporting to common file formats.',
 )
+
+
+# import qiime2.plugin.model as model
+#
+# class MetadataFormat(model.TextFileFormat):
+#     def sniff(self):
+#         return True
+#
+#
+# MetadataDirectoryFormat = model.SingleFileDirectoryFormat(
+#     'MetadataDirectoryFormat', 'metadata.tsv', MetadataFormat)
+#
+#
+# plugin.register_formats(MetadataFormat, MetadataDirectoryFormat)
