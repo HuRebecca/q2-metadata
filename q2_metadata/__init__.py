@@ -9,7 +9,7 @@
 import importlib
 
 # from ._format import MetadataFormat, MetadataDirectoryFormat
-from ._type import MetadataX
+# from ._type import MetadataX
 
 from ._tabulate import tabulate
 from ._distance import distance_matrix
@@ -18,7 +18,5 @@ from ._version import get_versions
 __version__ = get_versions()['version']
 del get_versions
 
-__all__ = ['tabulate', 'distance_matrix','MetadataX', 'MetadataFormat',
-           'MetadataDirectoryFormat']
+__all__ = ['tabulate', 'distance_matrix']
 
-importlib.import_module('q2_metadata._transformer')

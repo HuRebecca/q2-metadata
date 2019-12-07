@@ -9,12 +9,11 @@
 import qiime2.plugin
 from qiime2.plugin import MetadataColumn, Numeric, Metadata
 
-import q2_metadata
-
-import pandas as pd
-
 from q2_metadata import tabulate, distance_matrix
 from q2_types.distance_matrix import DistanceMatrix
+
+import qiime2.plugin.model as model
+from qiime2.plugin import SemanticType
 
 
 plugin = qiime2.plugin.Plugin(
@@ -29,6 +28,44 @@ plugin = qiime2.plugin.Plugin(
                  'and visualizing Metadata.'),
     short_description='Plugin for working with Metadata.'
 )
+
+
+# --------
+#  Format
+# --------
+class MetadataFormat(model.TextFileFormat):
+    def sniff(self):
+        return True
+
+MetadataDirectoryFormat = model.SingleFileDirectoryFormat(
+    'MetadataDirectoryFormat', 'metadata.tsv', MetadataFormat)
+
+# -------
+#  types
+# -------
+MetadataX = SemanticType('MetadataX')
+plugin.register_semantic_types(MetadataX)
+plugin.register_semantic_type_to_format(
+    MetadataX, artifact_format=MetadataDirectoryFormat
+)
+plugin.register_formats(MetadataFormat, MetadataDirectoryFormat)
+
+# --------------
+#  transformers
+# --------------
+@plugin.register_transformer
+def _1(data: Metadata) -> MetadataFormat:
+    ff = MetadataFormat()
+    path = str(ff) + '/metadata.tsv'
+    data.save(path)
+    return ff
+
+
+@plugin.register_transformer
+def _2(ff: MetadataFormat) -> Metadata:
+    path = str(ff) + '/metadata.tsv'
+    return Metadata.load(path)
+
 
 plugin.methods.register_function(
     function=distance_matrix,
@@ -63,7 +100,7 @@ plugin.methods.register_function(
 
 
 plugin.visualizers.register_function(
-    function=q2_metadata.tabulate,
+    function=tabulate,
     inputs={},
     parameters={
         'input': qiime2.plugin.Metadata,
@@ -79,17 +116,3 @@ plugin.visualizers.register_function(
                 'visualization supports interactive filtering, sorting, and '
                 'exporting to common file formats.',
 )
-
-
-# import qiime2.plugin.model as model
-#
-# class MetadataFormat(model.TextFileFormat):
-#     def sniff(self):
-#         return True
-#
-#
-# MetadataDirectoryFormat = model.SingleFileDirectoryFormat(
-#     'MetadataDirectoryFormat', 'metadata.tsv', MetadataFormat)
-#
-#
-# plugin.register_formats(MetadataFormat, MetadataDirectoryFormat)
