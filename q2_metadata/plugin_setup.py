@@ -6,21 +6,19 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 
+import importlib
 import qiime2.plugin
 from qiime2.plugin import MetadataColumn, Numeric, Metadata
 
-from q2_metadata import tabulate, distance_matrix
+from q2_metadata import tabulate, distance_matrix, __version__
 from q2_types.distance_matrix import DistanceMatrix
 
-from qiime2.plugin import SemanticType
-
+from ._type import MetadataX
 from ._format import MetadataFormat, MetadataDirectoryFormat
-
 
 plugin = qiime2.plugin.Plugin(
     name='metadata',
-    version='testversion',
-    # version=q2_metadata.__version__,
+    version=__version__,
     website='https://github.com/qiime2/q2-metadata',
     package='q2_metadata',
     user_support_text=None,
@@ -29,33 +27,6 @@ plugin = qiime2.plugin.Plugin(
                  'and visualizing Metadata.'),
     short_description='Plugin for working with Metadata.'
 )
-
-    
-# -------
-#  types
-# -------
-MetadataX = SemanticType('MetadataX')
-plugin.register_semantic_types(MetadataX)
-plugin.register_semantic_type_to_format(
-    MetadataX, artifact_format=MetadataDirectoryFormat
-)
-plugin.register_formats(MetadataFormat, MetadataDirectoryFormat)
-
-# --------------
-#  transformers
-# --------------
-@plugin.register_transformer
-def _1(data: Metadata) -> MetadataFormat:
-    ff = MetadataFormat()
-    path = str(ff) + '/metadata.tsv'
-    data.save(path)
-    return ff
-
-
-@plugin.register_transformer
-def _2(ff: MetadataFormat) -> Metadata:
-    path = str(ff) + '/metadata.tsv'
-    return Metadata.load(path)
 
 
 plugin.methods.register_function(
@@ -107,3 +78,11 @@ plugin.visualizers.register_function(
                 'visualization supports interactive filtering, sorting, and '
                 'exporting to common file formats.',
 )
+
+
+plugin.register_semantic_types(MetadataX)
+plugin.register_semantic_type_to_format(
+    MetadataX, artifact_format=MetadataDirectoryFormat
+)
+plugin.register_formats(MetadataFormat, MetadataDirectoryFormat)
+importlib.import_module('q2_metadata._transformer')

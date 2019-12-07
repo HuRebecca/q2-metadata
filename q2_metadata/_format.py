@@ -8,6 +8,7 @@
 
 import qiime2.plugin.model as model
 
+
 class MetadataFormat(model.TextFileFormat):
     def sniff(self):
         return True
