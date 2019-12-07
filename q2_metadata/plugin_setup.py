@@ -12,8 +12,9 @@ from qiime2.plugin import MetadataColumn, Numeric, Metadata
 from q2_metadata import tabulate, distance_matrix
 from q2_types.distance_matrix import DistanceMatrix
 
-import qiime2.plugin.model as model
 from qiime2.plugin import SemanticType
+
+from ._format import MetadataFormat, MetadataDirectoryFormat
 
 
 plugin = qiime2.plugin.Plugin(
@@ -29,17 +30,7 @@ plugin = qiime2.plugin.Plugin(
     short_description='Plugin for working with Metadata.'
 )
 
-
-# --------
-#  Format
-# --------
-class MetadataFormat(model.TextFileFormat):
-    def sniff(self):
-        return True
-
-MetadataDirectoryFormat = model.SingleFileDirectoryFormat(
-    'MetadataDirectoryFormat', 'metadata.tsv', MetadataFormat)
-
+    
 # -------
 #  types
 # -------
