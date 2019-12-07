@@ -13,6 +13,7 @@ from qiime2.plugin import MetadataColumn, Numeric, Metadata
 from q2_metadata import tabulate, distance_matrix, __version__
 from q2_types.distance_matrix import DistanceMatrix
 
+from ._normalize import normalize
 from ._type import MetadataX
 from ._format import MetadataFormat, MetadataDirectoryFormat
 
@@ -45,12 +46,8 @@ plugin.methods.register_function(
 )
 
 
-def test_function(metadata: Metadata) -> Metadata:
-    return Metadata()
-
-
 plugin.methods.register_function(
-    function=test_function,
+    function=normalize,
     inputs={},
     parameters={'metadata': Metadata},
     parameter_descriptions={'metadata': 'The sample metadata.'},
