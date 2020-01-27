@@ -1,0 +1,35 @@
+# // Definition:
+# // Height of land above sea level in meters
+# // at the sampling site
+
+# // Helpful hints:
+# // required for all sample submissions Distinguish from altitude
+# // which is height above land or sea
+# // in the air.  
+
+# // Expected values: "positive integers, i.e. 500"
+
+# // Examples:
+# //   * host-associated: "0", "92", "194", "193", "100"
+# //   * human: "193", "10", "1642"
+# //   * environmental: "193", "123", "199"
+# //   * other: "193"
+
+# // Blank value: "193"
+
+Format: float
+Blank value: 193
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

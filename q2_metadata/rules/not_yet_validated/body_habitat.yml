@@ -1,0 +1,35 @@
+# // Definition:
+# // from UBERON e.g skin, gastrointestinal tract
+
+# // Helpful hints:
+# // required for all host-associated samples
+
+# // Links:
+# // ols.wordvis.com
+
+# // Expected values: "UBERON:feces", "UBERON:oral cavity", "UBERON:skin", "UBERON:nose", "UBERON:vagina", "UBERON:hair", "UBERON:eye", "UBERON:ear"
+
+# // Examples:
+# //   * host-associated: "Not applicable", "UBERON:blood", "UBERON:skin", "UBERON:respiratory system system", "UBERON:gastrointestinal system", "UBERON:multicellular organism", "UBERON:oral cavity", "UBERON:lymphoid system", "UBERON:feces", "UBERON:spleen"
+# //   * human: "UBERON:urine", "UBERON:reproductive system", "UBERON:saliva", "UBERON:blood", "UBERON:skin", "UBERON:ear", "UBERON:nasopharynx", "UBERON:gastrointestinal system", "UBERON:hand", "UBERON:respiratory system", "UBERON:oral cavity", "UBERON:feces"
+# //   * environmental: "Not applicable"
+# //   * other: "Not applicable"
+
+# // Blank value: "Not applicable"
+
+Format: UBERON:
+Blank value: Not applicable
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

@@ -1,0 +1,30 @@
+# // Definition:
+# // The participant age, corrected to account for people
+# // whose ages are not possible (i.e. born
+# // in the future) or people whose other
+# // demographic characteristics (height, weight, alcohol consumption) do
+# // not make sense for their age
+
+# // Expected values: "0 - 101"
+
+# // Blank value: "Not applicable"
+
+# // Missing values: "Not provided"
+
+Format: int
+Blank value: Not applicable
+Missing values: Not provided
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

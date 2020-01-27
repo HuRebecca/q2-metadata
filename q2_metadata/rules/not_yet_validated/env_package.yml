@@ -1,0 +1,36 @@
+# // Definition:
+# // environments where the sample was obtained
+
+# // Helpful hints:
+# // select one appropriate to sample type for each
+# // sample
+
+# // Links:
+# // [air|built environment|host-associated|human-associated|human-skin|human-oral|human-gut|human-vaginal|microbial mat/biofilm|misc environment|plant-associated|sediment|soil|wastewater/sludge|water]
+
+# // Expected values: "human-oral", "human-gut", "human-skin", "human-associated", "human-vaginal", "Unspecified", "misc environment"
+
+# // Examples:
+# //   * host-associated: "host-associated", "plant-associated"
+# //   * human: "human-vaginal", "human-associated", "human-gut", "human-oral", "human-skin"
+# //   * environmental: "wastewater/sludge", "sediment", "misc environment", "air", "soil", "built environment", "water"
+# //   * other: "misc environment", "built environment"
+
+# // Blank value: "misc enviroment"
+
+Format: restricted vocabulary
+Blank value: misc enviroment
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

@@ -1,0 +1,26 @@
+# // Definition:
+# // Does the participant tend toward constipation or diarrhea?
+
+# // Expected values: "I tend to have diarrhea (watery stool) - Type 5, 6 and 7", "I tend to have normal formed stool", "I tend to be constipated (have difficulty passing stool)", "I tend to be constipated (have difficulty passing stool) - Type 1 and 2", "I tend to have diarrhea (watery stool)", "I tend to have normal formed stool - Type 3 and 4", "I don't know, I do not have a point of reference"
+
+# // Blank value: "Not applicable"
+
+# // Missing values: "Not provided"
+
+Format: str
+Blank value: Not applicable
+Missing values: Not provided
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

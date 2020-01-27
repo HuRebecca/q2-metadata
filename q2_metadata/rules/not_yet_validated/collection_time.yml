@@ -1,0 +1,24 @@
+# // Definition:
+# // The time of day when the sample was
+# // collected
+
+# // Expected values: "times in a HH:MM format. i.e. 10:27"
+
+# // Blank value: "Not applicable"
+
+Format: datetime
+Blank value: Not applicable
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

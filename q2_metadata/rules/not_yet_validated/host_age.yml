@@ -1,0 +1,24 @@
+# // Definition:
+# // host_age in appropriate units
+
+# // Examples:
+# //   * host-associated: "Not applicable", "Not provided", "10"
+# //   * human: "35", "8", "36"
+# //   * environmental: "Not applicable"
+# //   * other: "Not applicable"
+
+Format: float
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

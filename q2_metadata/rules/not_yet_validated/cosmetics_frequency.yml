@@ -1,0 +1,29 @@
+# // Definition:
+# // How oftend does the participant use cosmetics or
+# // make up?
+
+# // Helpful hints: frequency
+
+# // Expected values: "Never", "Rarely (a few times/month)", "Occasionally (1-2 times/week)", "Regularly (3-5 times/week)", "Daily"
+
+# // Blank value: "Not applicable"
+
+# // Missing values: "Not provided"
+
+Format: str
+Blank value: Not applicable
+Missing values: Not provided
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

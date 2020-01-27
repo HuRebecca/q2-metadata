@@ -1,0 +1,36 @@
+# // Definition:
+# // height above land (in meters) where air was
+# // sampled
+
+# // Helpful hints:
+# // only for air samples
+
+# // Expected values: "0"
+
+# // Examples:
+# //   * host-associated: "Not applicable"
+# //   * human: "Not applicable"
+# //   * environmental: "100", "Not applicable"
+# //   * other: "Not applicable"
+
+# // Blank value: "0"
+
+# // Missing values: "Not provided"
+
+Format: float
+Blank value: 0
+Missing values: Not provided
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

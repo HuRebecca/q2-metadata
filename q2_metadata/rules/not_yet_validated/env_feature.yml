@@ -1,0 +1,36 @@
+# // Definition:
+# // Classification of a specific feature in the biome
+
+# // Helpful hints:
+# // required for all sample submissions e.g. Was the
+# // feature a forest, grassland, agricultural site
+
+# // Links:
+# // ols.wordvis.com
+
+# // Expected values: "human associated biome"
+
+# // Examples:
+# //   * host-associated: "animal-associated habitat", "insecta-associated habitat", "kelp forest", "plant-associated habitat"
+# //   * human: "human-associated habitat"
+# //   * environmental: "(type of) soil", "building/anthropogenic habitat", "plant-associated habitat", "coral reef", "anaerobic bioreactor", "zone of marine/reef,shore", "sewer", "research   facility", "hospital", "river/lake/stream", "city"
+# //   * other: "building/anthropogenic habitat", "research facility"
+
+# // Blank value: "reserach facility"
+
+Format: text from Environmental Ontology (ENVO)
+Blank value: reserach facility
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

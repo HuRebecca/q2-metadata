@@ -1,0 +1,32 @@
+# // Definition:
+# // Name in words of the TAXON_ID e.g. 408170
+# // is human gut metagenome
+
+# // Helpful hints:
+# // required for all sample submissions: distinguish from taxonomy
+# // id of host
+
+# // Links:
+# //  http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi
+
+# // Examples:
+# //   * host-associated: "gut metagenome", "mouse skin metagenome", "mouse gut metagenome", "oral metagenome", "skin metagenome", "sponge metagenome", "plant metagenome", "mouse metagenome", "coral metagenome", "biofilm", "fish metagenome", "insect gut metagenome", "rhizosphere metagenome", "macroalgae metagenome", "insect metagenome", "fish gut metagenome"
+# //   * human: "human metagenome", "human lung metagenome", "human gut metagenome", "human skin metagenome", "human blood metagenome", "human vaginal metagenome", "human-metagenome", "human oral metagenome"
+# //   * environmental: "hospital metagenome", "anaerobic digester metagenome", "soil metagenome", "freshwater metagenome", "wastewater metagenome", "marine sediment metagenome", "rhizosphere metagenome", "dust metagenome", "seawater metagenome", "air metagenome", "indoor metagenome", "sediment metagenome", "biofilm metagenome"
+# //   * other: "food fermentation metagenome", "synthetic metagenome", "food metagenome", "indoor metagenome", "metagenome"
+
+Format: free text from ontology
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

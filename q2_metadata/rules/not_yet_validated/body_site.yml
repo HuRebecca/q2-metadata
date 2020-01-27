@@ -1,0 +1,35 @@
+# // Definition:
+# // from UBERON e.g. skin of arm, colon
+
+# // Helpful hints:
+# // required for all host-associated samples
+
+# // Links:
+# // ols.wordvis.com
+
+# // Expected values: "UBERON:feces", "UBERON:tongue", "UBERON:skin of head", "UBERON:skin of hand", "UBERON:nostril", "UBERON:vaginal introitus", "UBERON:hair", "UBERON:eye", "UBERON:external auditory meatus", "UBERON:skin of trunk", "UBERON:skin of leg"
+
+# // Examples:
+# //   * host-associated: "UBERON:mouth", "UBERON:skin of hand", "UBERON:gill", "UBERON:lymph node", "Not applicable", "UBERON:colon", "UBERON:blood", "UBERON:skin of abdomen", "UBERON:digestive tract", "UBERON:skin of body", "UBERON:multicellular organism", "UBERON:cecum", "UBERON:feces", "UBERON:spleen", "UBERON:skin of head"
+# //   * human: "UBERON:anus", "UBERON:oropharynx", "UBERON:skin of hand", "UBERON:nares", "UBERON:urine", "UBERON:skin of forehead", "UBERON:lung", "UBERON:tongue", "UBERON:saliva", "UBERON:colon", "UBERON:blood", "UBERON:external auditory meatus", "UBERON:digit", "UBERON:vagina", "UBERON:feces"
+# //   * environmental: "Not applicable"
+# //   * other: "Not applicable"
+
+# // Blank value: "Not applicable"
+
+Format: UBERON:
+Blank value: Not applicable
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

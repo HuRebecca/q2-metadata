@@ -1,0 +1,30 @@
+# // Definition:
+# // has the dna been extracted from the sample
+
+# // Helpful hints: TRUE/FALSE
+
+# // Expected values: "true", "false"
+
+# // Examples:
+# //   * host-associated: "VRAI"
+# //   * human: "VRAI"
+# //   * environmental: "VRAI"
+# //   * other: "VRAI"
+
+# // Blank value: Not applicable
+
+# // Missing values: "Not provided"
+
+Format: bool
+
+Blank value: Not applicable
+
+Missing values: Not provided
+
+remap:	BEFORE: AFTER
+
+normalization:
+ - No range applicable
+
+validation:
+  - No appropriate validation

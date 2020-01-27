@@ -1,0 +1,38 @@
+# // Definition:
+# // Classification of the site by latitude and longitude
+# // in decimal degrees
+
+# // Helpful hints:
+# // required for all sample submissions. Please convert from
+# // GPS co-ordinates  or DD MM SS
+# // to decimal degrees
+
+# // Expected values: "i.e. 32.8"
+
+# // Examples:
+# //   * host-associated: "-3,1", "32,5", "18,2", "-5,1", "48,393612"
+# //   * human: "32,5", "40,127", "40,1"
+# //   * environmental: "32,5", "42", "41,482222"
+# //   * other: "32,5"
+
+# // Blank value: "32,8"
+
+# // Missing values: "Not provided"
+
+Format: DD.MM..
+Blank value: 32,8
+Missing values: Not provided
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

@@ -1,0 +1,31 @@
+# // Definition:
+# // Is there any raw specimen left to sample
+
+# // Helpful hints: TRUE/FALSE
+
+# // Expected values: "True"
+
+# // Examples:
+# //   * host-associated: "FAUX", "VRAI"
+# //   * human: "VRAI"
+# //   * environmental: "FAUX", "VRAI"
+# //   * other: "VRAI"
+
+# // Blank value: "False"
+
+Format: TRUE/FALSE
+Blank value: False
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country
