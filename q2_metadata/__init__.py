@@ -20,4 +20,3 @@ __version__ = get_versions()['version']
 del get_versions
 
 __all__ = ['tabulate', 'distance_matrix', 'normalize']
-

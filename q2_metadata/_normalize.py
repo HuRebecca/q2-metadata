@@ -6,33 +6,49 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 
-import sys
 import yaml
+import pandas as pd
 from glob import glob
-from os.path import abspath, basename, dirname, splitext
+from os.path import abspath, basename, dirname, isfile, splitext
 import qiime2 as q2
 
 
 # annotate how types are expected to be passed to the function
 # (explicit declare that first arg should be metadata class)
-def normalize(metadata: q2.Metadata) -> None:
-    # def normalize(metadata: q2.Metadata) -> q2.Metadata:
+def normalize(metadata: q2.Metadata) -> q2.Metadata:
     """
     :param metadata:
-        A non-curated metadata table.
+        Input metadata file
     :return:
         A curated metadata table.
     """
-
     # Get hard-coded but possible user-modified data from the "databases" and "rules" folders
     root_dir = dirname(abspath(__file__))
-    print('root_dir:', root_dir)
     databases_paths, rules_paths = get_paths(root_dir)
-
     rules = get_rules(rules_paths)
-    print(rules)
+    databases = get_databases(databases_paths)
 
-#    return q2.Metadata()
+    md = metadata.to_dataframe()
+
+    # md_out = normalize()
+
+    # only during dev so that the function return something :)
+    md_out = pd.DataFrame({
+        'sampleid': ['A', 'B'],
+        'col1': ['1', '2'],
+        'col2': ['3', '4']
+    }).set_index('sampleid')
+    return q2.Metadata(md_out)
+
+
+def check_file_existence(path: str, data: str) -> bool:
+    if data == 'rule' and path.endswith('.yml'):
+        return True
+    elif data == 'database' and path.endswith('.csv'):
+        return True
+    else:
+        print('Incorrect file extension %s (.yml or .csv)' % path)
+        return False
 
 
 def parse_yml_file(yml_path: str) -> dict:
@@ -40,30 +56,60 @@ def parse_yml_file(yml_path: str) -> dict:
     Parse the non-comment contents of a yaml file.
     :param yml_path:
         Path to one metadata column .yml rules
-    :return:
+    :return rule:
     """
+    if not check_file_existence(yml_path, 'rule'):
+        return {}
+
     # read the lines
-    lines = [x.strip() for x in open(yml_path, 'rU').readlines()]
-    comment_lines_indices = [idx for idx, x in enumerate(lines) if x[0] == '#']
+    lines = []
+    with open(yml_path, 'r') as f:
+        for line in f:
+            lines.append(line.strip())
 
     # open read the yaml file and skip the comment lines in the handle
-    with open(yml_path) as handle:
+    comment_lines_indices = [x for x, line in enumerate(lines) if line.startswith('#')]
+    with open(yml_path, 'r') as handle:
         for comment_line in range(comment_lines_indices[-1]):
             _ = handle.readline()
-        rule = yaml.load(handle)
+        rule = yaml.load(handle, Loader=yaml.FullLoader)
     return rule
+
+
+def get_databases(db_paths: dict) -> dict:
+    """
+    :param db_paths:
+        Key     : databases name
+        Value   : paths to .csv database
+    :return:
+        Key     : databases name
+        Value   : pd.DataFrame()
+    """
+    databases = {}
+    for db, db_path in db_paths.items():
+        if not check_file_existence(db_path, 'database'):
+            return {}
+        database = pd.read_csv(
+            db_path, header=0, sep=',', dtype=str, low_memory=False
+        )
+        databases[db] = database
+    return databases
 
 
 def get_rules(rules_paths: dict) -> dict:
     """
     Collect the
     :param rules_paths:
+        Keys    : metadata columns
+        Values  : path to the yaml file rules
     :return:
+        Keys    : metadata columns
+        Values  : rules dicts (from yaml to dict using yaml.load())
     """
     rules = {}
     for col, rule_path in rules_paths.items():
         rule = parse_yml_file(rule_path)
-    rules[col] = rule
+        rules[col] = rule
     return rules
 
 
