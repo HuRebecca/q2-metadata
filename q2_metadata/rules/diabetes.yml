@@ -10,23 +10,19 @@
 
 # // Missing values: "Not provided"
 
-Format: str
-
 Blank value: Not applicable
-
+Format: str
 Missing values: Not provided
-
-remap:	BEFORE: AFTER
-
+expected values:
+- I do not have this condition
+- Self-diagnosed
+- Diagnosed by a medical professional (doctor, physician assistant)
+- Diagnosed by an alternative medicine practitioner
 normalization:
-  - No range applicable
+- No range applicable
+remap:
+  BEFORE: AFTER
 validation:
   force_to_blank_if:
     is null:
     - host_taxid
-
-expected values:
-  - I do not have this condition
-  - Self-diagnosed
-  - Diagnosed by a medical professional (doctor, physician assistant)
-  - Diagnosed by an alternative medicine practitioner

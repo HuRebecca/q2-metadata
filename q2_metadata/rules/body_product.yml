@@ -17,24 +17,20 @@
 
 # // Blank value: "Not applicable"
 
-Format: str
-
 Blank value: Not applicable
-
-remap:	BEFORE: AFTER
-
+Expected values:
+- UBERON:feces
+- UBERON:saliva
+- UBERON:sebum
+- UBERON:mucus
+- UBERON:tears
+- UBERON:cerumen
+Format: str
 normalization:
-  - No range applicable
-
+- No range applicable
+remap:
+  BEFORE: AFTER
 validation:
   force_to_blank_if:
     is null:
     - host_taxid
-
-Expected values:
-  - UBERON:feces
-  - UBERON:saliva
-  - UBERON:sebum
-  - UBERON:mucus
-  - UBERON:tears
-  - UBERON:cerumen

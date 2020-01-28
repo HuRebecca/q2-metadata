@@ -5,19 +5,16 @@
 
 # // Missing values: "Not provided"
 
-Format: int
-
 Blank value: Not applicable
-
+Format: int
 Missing values: Not provided
-
-remap:	BEFORE: AFTER
-
 normalization:
   gated_value: Out of bounds
   maximum: '120'
   minimum: '0'
+remap:
+  BEFORE: AFTER
 validation:
- force_to_blank_if:
+  force_to_blank_if:
     is null:
     - host_taxid

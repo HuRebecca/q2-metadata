@@ -16,19 +16,14 @@
 # //   * environmental: "USA:NY:Ithaca", "USA:MI:Cleveland", "USA:CA:San Diego"
 # //   * other: "USA:CA:San Diego"
 
-
-Format: USA:CA:San Diego
-
 Blank value: Not applicable
-
 Expected value: Gazetteer ontology
-
-remap:	BEFORE: AFTER
-
+Format: str
 normalization:
-  - No range applicable
-
+- No range applicable
+remap:
+  BEFORE: AFTER
 validation:
-  - must exist
-  - check ontology
-  - flag typos
+- must exist
+- check ontology
+- flag typos

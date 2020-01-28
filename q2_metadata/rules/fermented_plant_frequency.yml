@@ -10,25 +10,20 @@
 
 # // Missing values: "Not provided"
 
-Format: str
-
 Blank value: Not applicable
-
+Format: str
 Missing values: Not provided
-
-remap:	BEFORE: AFTER
-
+expected values:
+- Never
+- Rarely (less than once/week)
+- Occasionally (1-2 times/week)
+- Regularly (3-5 times/week)
+- Daily
 normalization:
-  - No range applicable
-
+- No range applicable
+remap:
+  BEFORE: AFTER
 validation:
   force_to_blank_if:
     is null:
     - host_taxid
-
-expected values:
-  - Never
-  - Rarely (less than once/week)
-  - Occasionally (1-2 times/week)
-  - Regularly (3-5 times/week)
-  - Daily

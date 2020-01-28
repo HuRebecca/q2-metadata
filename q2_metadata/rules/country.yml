@@ -7,7 +7,6 @@
 
 # // Blank value: "Not applicable"
 
-Format: str
 Blank value: Not applicable
 Expected value: Gazetteer ontology
 Format: str

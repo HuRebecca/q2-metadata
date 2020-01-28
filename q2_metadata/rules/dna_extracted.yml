@@ -15,16 +15,12 @@
 
 # // Missing values: "Not provided"
 
-Format: bool
-
 Blank value: Not applicable
-
+Format: bool
 Missing values: Not provided
-
-remap:	BEFORE: AFTER
-
 normalization:
- - No range applicable
-
+- No range applicable
+remap:
+  BEFORE: AFTER
 validation:
-  - No appropriate validation
+- No appropriate validation
