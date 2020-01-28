@@ -1,0 +1,27 @@
+# // Definition:
+# // Length of time the participant has lived in
+# // their current residence.
+
+# // Expected values: "I have lived in my current state of residence for more than a year.", "Within the past year", "Within the past 6 months", "Within the past 3 months", "Within the past month"
+
+# // Blank value: "Not applicable"
+
+# // Missing values: "Not provided"
+
+Format: str
+Blank value: Not applicable
+Missing values: Not provided
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

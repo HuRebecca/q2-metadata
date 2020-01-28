@@ -1,0 +1,29 @@
+# // Definition:
+# // A description of the sample that can include
+# // site, subject, sample material
+
+# // Helpful hints:
+# // required for all sample submissions 
+
+# // Expected values: "American Gut Project Forehead Sample", "American Gut Project Mouth Sample", "American Gut Project Nasal Mucus Sample", "American Gut Project Left Leg Sample", "American Gut Project Right Hand Sample", "American Gut Project Ear Wax Sample", "American Gut control", "American Gut Project Hair Sample", "American Gut Project Nares Sample", "American Gut Project Left Hand Sample", "American Gut Project Vaginal Mucus Sample", "American Gut Project Torso Sample", "American Gut Project Stool Sample", "American Gut Project Right Leg Sample", "American Gut Project Tears Sample"
+
+# // Examples:
+
+# // Blank value: "American Gut control"
+
+Format: Free text
+Blank value: American Gut control
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

@@ -1,0 +1,31 @@
+# // Definition:
+# // Can be the same as sample name, or
+# // name of sample tube.  For human-associated
+# // samples it is not identifying (deidentified).
+
+# // Helpful hints:
+# // leave out if not appropriate
+
+# // Expected values: "ex: 1001"
+
+# // Blank value: "BLANK[identifier]"
+
+# // Missing values: "Not provided"
+
+Format: Free text
+Blank value: BLANK[identifier]
+Missing values: Not provided
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

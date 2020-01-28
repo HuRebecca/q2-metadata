@@ -1,0 +1,35 @@
+# // Definition:
+# // Refers to the number assigned to the specific
+# // metagenome being sampled:
+
+# // Helpful hints:
+# // required for all sample submissions e.g. soil metagenome
+# // is 410658
+
+# // Links:
+# //  http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi
+
+# // Examples:
+# //   * host-associated: "496924", "1338477", "1163772", "939928", "1227552", "1602388", "410661", "749906", "496922", "540485", "1234904", "1202446", "1441287", "1297885", "718308", "2015907"
+# //   * human: "646099", "433733", "447426", "1632839", "1504969", "408170", "539655"
+# //   * environmental: "939928", "1561972", "527639", "410658", "412755", "1236744", "718308", "1256227", "449393", "1755691", "749907", "1263854", "655179"
+# //   * other: "256318", "1235509", "870726", "1256227", "1154581"
+
+# // Blank value: "Not applicable"
+
+Format: integer
+Blank value: Not applicable
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

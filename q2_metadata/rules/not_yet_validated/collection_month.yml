@@ -1,0 +1,23 @@
+# // Definition:
+# // Month of sample collection
+
+# // Expected values: "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+
+# // Blank value: "Not applicable"
+
+Format: str
+Blank value: Not applicable
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

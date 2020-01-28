@@ -70,3 +70,7 @@ target/
 
 .DS_Store
 node_modules
+
+# pyCharm stuff
+.idea/
+venv/

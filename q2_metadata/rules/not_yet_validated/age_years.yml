@@ -1,0 +1,24 @@
+# // Definition:
+# // The self-reported participant age in years.
+
+# // Blank value: "Not applicable"
+
+# // Missing values: "Not provided"
+
+Format: int
+Blank value: Not applicable
+Missing values: Not provided
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

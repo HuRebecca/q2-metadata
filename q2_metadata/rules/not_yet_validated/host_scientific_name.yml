@@ -1,0 +1,33 @@
+# // Definition:
+# // host scientific name e.g. Homo sapiens
+
+# // Helpful hints:
+# // for all host-associated studies
+
+# // Links:
+# //  http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi
+
+# // Examples:
+# //   * host-associated: "Spongia", "Rattus norvegicus", "Cnidaria", "Embryophyta", "Nereocystis luetkeana", "Scomber japonicus", "Holothuria glaberrima", "Canis lupus familiaris", "Mus musculus", "Apis melliflera", "Haliotis corrugata"
+# //   * human: "Homo sapiens"
+# //   * environmental: "Not applicable"
+# //   * other: "Not applicable", "Bacillus subtilis"
+
+# // Blank value: "Not applicable"
+
+Format: Free text
+Blank value: Not applicable
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

@@ -1,0 +1,27 @@
+# // Definition:
+# // US regions defined by the economic bureau; smaller
+# // than Census regions. (See http://www.bea.gov/regional/docs/regions.cfm)
+
+# // Expected values: "New England", "Mideast", "Southeast", "Great Lakes", "Plains", "Rocky Mountain", "Southwest", "Far West"
+
+# // Blank value: "Not applicable"
+
+# // Missing values: "Not provided"
+
+Format: str
+Blank value: Not applicable
+Missing values: Not provided
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

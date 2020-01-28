@@ -1,0 +1,23 @@
+# // Definition:
+# // Date of sample collection
+
+# // Expected values: "Dates after December 2012 in the MM/DD/YYYY format"
+
+# // Blank value: "Not applicable"
+
+Format: datetime: MM/DD/YYYY
+Blank value: Not applicable
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

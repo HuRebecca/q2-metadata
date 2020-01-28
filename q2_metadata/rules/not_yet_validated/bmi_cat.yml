@@ -1,0 +1,28 @@
+# // Definition:
+# // The body mass index, categorized according to the
+# // WHO. This is calculated from the bmi_corrected
+# // column.
+
+# // Expected values: "Overweight", "Normal", "Obese", "Underweight"
+
+# // Blank value: "Not applicable"
+
+# // Missing values: "Not provided"
+
+Format: str
+Blank value: Not applicable
+Missing values: Not provided
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

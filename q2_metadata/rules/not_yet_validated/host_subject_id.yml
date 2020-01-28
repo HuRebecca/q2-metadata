@@ -1,0 +1,31 @@
+# // Definition:
+# // should be a label that applies to all
+# // samples belonging to one subject or one
+# // sample
+
+# // Expected values: "i.e. "d212da7fd7d7d16df1954534222cc5422868f35755406fc64a6bd01cf03c8d5bafcd1734ba70d78a21b45592a1adcc40ffe7fcfc4bc48f6da5cb46d4b21a3144"
+
+# // Examples:
+# //   * host-associated: "sponge 1", "mouse 1", "rat 1", "Dog 1", "coral 1", "bee 1", "plant 1", "sample 1", "sea cucumber 4", "Fish1", "root 1"
+# //   * human: "e.g.ID2046", "e.g.ID2045"
+# //   * environmental: "sample 1"
+# //   * other: "sample 1"
+
+# // Blank value: "Not applicable"
+
+Format: Free text
+Blank value: Not applicable
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

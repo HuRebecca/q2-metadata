@@ -1,0 +1,30 @@
+# // Definition:
+# // Description of the partipant age. For adults, this
+# // is binned by decade. Children under 3
+# // are described as "babies". Children 4 -
+# // 12 are "children" and those 13-19 are
+# // "teens".
+
+# // Expected values: "baby", "child", "teen", "20s", "30s", "40s", "50s", "60s", "70+"
+
+# // Blank value: "Not applicable"
+
+# // Missing values: "Not provided"
+
+Format: str
+Blank value: Not applicable
+Missing values: Not provided
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

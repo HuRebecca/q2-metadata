@@ -1,0 +1,27 @@
+# // Definition:
+# // Has the participants weight has changed more than
+# // 10 lbs in the past year?
+
+# // Expected values: "Decreased more than 10 pounds", "Remained stable", "Increased more than 10 pounds"
+
+# // Blank value: "Not applicable"
+
+# // Missing values: "Not provided"
+
+Format: str
+Blank value: Not applicable
+Missing values: Not provided
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

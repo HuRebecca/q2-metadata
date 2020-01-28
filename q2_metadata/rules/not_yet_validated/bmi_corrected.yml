@@ -1,0 +1,30 @@
+# // Definition:
+# // Corrected body mass index, where individuals who reported
+# // height or weight values that are illogical
+# // are excluded (i.e. a height of 5
+# // inches), leading to BMI values which are
+# // illogical
+
+# // Expected values: "9.6 - 79"
+
+# // Blank value: "Not applicable"
+
+# // Missing values: "Not provided"
+
+Format: float
+Blank value: Not applicable
+Missing values: Not provided
+
+remap:	BEFORE: AFTER
+
+normalization:
+  gated_value: Out of bounds
+  maximum: '120'
+  minimum: '0'
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country
