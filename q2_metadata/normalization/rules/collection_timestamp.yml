@@ -17,10 +17,11 @@
 # //   * environmental: "2016-11-22", "2017-06-05", "2017-05-23 11:00"
 # //   * other: "2016-11-22"
 
-Blank value: no blank value
-Format: 2016-11-22
-normalization:
-- No range applicable
+# normalization:           # <-- completely remove if "No range applicable"
+# - No range applicable
+
+blank: no blank value
+format: 2016-11-22
 remap:
   BEFORE: AFTER
 validation:

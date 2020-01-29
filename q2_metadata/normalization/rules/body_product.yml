@@ -7,7 +7,7 @@
 # // Links:
 # // ols.wordvis.com
 
-# // Expected values: "UBERON:feces", "UBERON:saliva", "UBERON:sebum", "UBERON:mucus", "UBERON:tears", "UBERON:cerumen"
+# // Expected: "UBERON:feces", "UBERON:saliva", "UBERON:sebum", "UBERON:mucus", "UBERON:tears", "UBERON:cerumen"
 
 # // Examples:
 # //   * host-associated: "UBERON:parenchyma of spleen", "UBERON:lymphoid tissue", "Not applicable", "UBERON:saliva", "UBERON:mucus", "UBERON:blood", "UBERON:multicellular organism", "UBERON:organism substance", "UBERON:sebum", "UBERON:lumen of gut", "UBERON:feces"
@@ -15,19 +15,22 @@
 # //   * environmental: "Not applicable"
 # //   * other: "Not applicable"
 
-# // Blank value: "Not applicable"
+# // Blank: "Not applicable"
 
-Blank value: Not applicable
-Expected values:
+# normalization:         # <-- completely remove if "No range applicable"
+# - No range applicable
+
+
+
+blank: Not applicable
+expected:
 - UBERON:feces
 - UBERON:saliva
 - UBERON:sebum
 - UBERON:mucus
 - UBERON:tears
 - UBERON:cerumen
-Format: str
-normalization:
-- No range applicable
+format: str
 remap:
   BEFORE: AFTER
 validation:

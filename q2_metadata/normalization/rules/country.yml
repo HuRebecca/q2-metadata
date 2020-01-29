@@ -7,11 +7,13 @@
 
 # // Blank value: "Not applicable"
 
-Blank value: Not applicable
-Expected value: Gazetteer ontology
-Format: str
-normalization:
-- No range applicable
+# normalization:          # <-- completely remove if "No range applicable"
+# - No range applicable
+
+
+blank: Not applicable
+expected: Gazetteer ontology
+format: str
 remap:
   BEFORE: AFTER
 validation:

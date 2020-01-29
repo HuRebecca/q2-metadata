@@ -5,9 +5,9 @@
 
 # // Missing values: "Not provided"
 
-Blank value: Not applicable
-Format: int
-Missing values: Not provided
+blank: Not applicable
+format: int
+missing: Not provided
 normalization:
   gated_value: Out of bounds
   maximum: '120'

@@ -10,10 +10,10 @@
 
 # // Missing values: "Not provided"
 
-Blank value: Not applicable
-Format: str
-Missing values: Not provided
-expected values:
+blank: Not applicable
+format: str
+missing: Not provided
+expected:
 - Never
 - Rarely (less than once/week)
 - Occasionally (1-2 times/week)

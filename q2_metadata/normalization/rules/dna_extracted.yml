@@ -15,12 +15,15 @@
 
 # // Missing values: "Not provided"
 
-Blank value: Not applicable
-Format: bool
-Missing values: Not provided
-normalization:
-- No range applicable
+# normalization:              # <-- completely remove if "No range applicable"
+# - No range applicable
+# validation:                 # <-- completely remove if "No range applicable"
+# - No appropriate validation
+
+
+
+blank: Not applicable
+format: bool
+missing: Not provided
 remap:
   BEFORE: AFTER
-validation:
-- No appropriate validation
