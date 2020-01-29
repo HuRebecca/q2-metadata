@@ -14,7 +14,6 @@ from os.path import abspath, dirname, exists
 from q2_metadata._normalize import (
     get_paths_dict,
     parse_yml_file,
-    get_paths,
     get_rules,
     get_databases
 )
@@ -66,12 +65,6 @@ class NormalizationInputTests(unittest.TestCase):
         self.assertEqual(test_rules_dict, self.rules_dict)
         test_nothing_dict = get_paths_dict(self.root, "nothing")
         self.assertFalse(test_nothing_dict)
-
-    def test_get_paths(self):
-        # print("self.root", self.root)
-        test_dicts = get_paths(self.root)
-        # print("test_dicts", test_dicts)
-        self.assertEqual(test_dicts, (self.databases_dict, self.rules_dict))
 
     def test_parse_yml_file(self):
         self.assertTrue(exists(self.rules_dict['dummy_rule']))
