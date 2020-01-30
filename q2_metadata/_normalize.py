@@ -12,6 +12,7 @@ from os.path import abspath, dirname
 import qiime2 as q2
 import pandas as pd
 
+from q2_metadata.normalization._metadata import check_md
 from q2_metadata.normalization._io_utils import get_rules, get_databases
 from q2_metadata.normalization._waving_flags import show_rules_structure_issues
 
@@ -26,8 +27,12 @@ def normalize(metadata: q2.Metadata) -> q2.Metadata:
         A curated metadata table.
     """
 
+
+
     # Get metadata as pandas data frame
     md = metadata.to_dataframe()
+
+    md_valid = check_md(md)
 
     # Get path of the executable
     root_dir = dirname(abspath(__file__))
