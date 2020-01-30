@@ -12,10 +12,8 @@ from os.path import abspath, dirname
 import qiime2 as q2
 import pandas as pd
 
-from q2_metadata.normalization._io_utils import (
-
-)
-from .normalization._waving_flags import show_rules_structure_issues
+from q2_metadata.normalization._io_utils import get_rules, get_databases
+from q2_metadata.normalization._waving_flags import show_rules_structure_issues
 
 
 # annotate how types are expected to be passed to the function
@@ -28,20 +26,19 @@ def normalize(metadata: q2.Metadata) -> q2.Metadata:
         A curated metadata table.
     """
 
-    # Get path to metadata dataframe
+    # Get metadata as pandas data frame
     md = metadata.to_dataframe()
 
-    # Get hard-coded but possible user-modified data from the "databases" and "rules" folders
+    # Get path of the executable
     root_dir = dirname(abspath(__file__))
 
     rules, rules_dict, issues = get_rules(root_dir, md)
 
     if issues:
-        show_rules_structure_issues(issues)
+        show_rules_structure_issues(root_dir, issues)
         sys.exit(1)
 
     databases = get_databases(root_dir)
-
 
     # md_out = do_normalize(md, rules)
 
