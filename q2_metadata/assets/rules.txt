@@ -12,10 +12,10 @@ format,txt:
   - int
   - str
 missing,txt:
-  - "Missing: not applicable"
-  - "Missing: not collected"
-  - "Missing: not provided"
-  - "Missing: restricted access"
+  - not applicable
+  - not collected
+  - not provided
+  - restricted access
 normalization,dict:
   gated_value,txt:
     - Out of bounds
@@ -25,7 +25,7 @@ normalization,dict:
   minimum,type:
     - int
     - float
-  no range applicable: 1
+  no range applicable,bool: 1
 remap,dict:
   str: str
 validation,dict:
