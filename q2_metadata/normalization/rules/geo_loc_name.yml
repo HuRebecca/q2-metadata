@@ -26,6 +26,6 @@ format: str
 remap:
   BEFORE: AFTER
 validation:
-  must exist: 1
-  check ontology: 1
-  flag typos: 1
+ - must exist
+ - check ontology
+ - flag typos
