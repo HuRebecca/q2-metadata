@@ -71,6 +71,7 @@ notebooks
 
 .DS_Store
 node_modules
+q2_metadata/normalization/rules/default
 
 # pyCharm stuff
 .idea/
