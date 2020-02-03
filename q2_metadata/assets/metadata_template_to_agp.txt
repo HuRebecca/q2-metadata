@@ -1,0 +1,6 @@
+template,agp
+anonymized_name or tube_id,anonymized_name
+host_body_mass_index,bmi
+host_body_product,body_product
+host_body_habitat,body_habitat
+host_body_site,body_site
