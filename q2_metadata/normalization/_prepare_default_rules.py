@@ -12,7 +12,7 @@ import pkg_resources
 from os.path import join
 
 TEMPLATES = pkg_resources.resource_filename('q2_metadata', 'assets')
-RULES = pkg_resources.resource_filename('q2_metadata', 'normalization/default')
+RULES = pkg_resources.resource_filename('q2_metadata', 'normalization/rules/default')
 
 
 def get_agp_definitions() -> pd.DataFrame:
@@ -289,12 +289,22 @@ def write_rules(files_data: dict) -> None:
     :param files_data:
     :return:
     """
+    replacement = {
+        'Format': 'format',
+        'Blank value': 'blank',
+        'Expected values': 'expected',
+        'Missing values': 'missing'
+    }
     for variable, rule_values in files_data.items():
         rule_fp = '%s/%s.yml' % (RULES, variable)
         with open(rule_fp, 'w') as o:
             rules = []
             comments = ['# variable: %s' % variable]
-            for rule, values in sorted(rule_values.items()):
+            for rule_, values in sorted(rule_values.items()):
+                if rule_ in replacement:
+                    rule = replacement[rule_]
+                else:
+                    rule = rule_
                 if rule in ['Definition', 'Helpful hints', 'Links']:
                     comments.append('# %s: %s' % (rule, values))
                 elif rule == 'Examples':
@@ -304,7 +314,7 @@ def write_rules(files_data: dict) -> None:
                 else:
                     if isinstance(values, list):
                         comments.append('# %s: "%s"' % (rule, '", "'.join(values)))
-                        if rule == 'Expected values':
+                        if rule == 'expected':
                             rules.append('%s:' % rule)
                             rules.extend(['- %s' % val for val in values])
                         else:
@@ -337,7 +347,8 @@ def prepare_rules_from_template_and_qiita() -> None:
     files_data, variables_renamed = get_meta_from_template(
         agp_suppl_pd, md_temp_pd
     )
-    # - Qiita metadata template.
+    # - Qiita metadata template
+    # (derivatives and sources may be useful for actual rules implementation)
     files_data, derivatives, sources = get_meta_from_qiita(
         files_data, agp_suppl_pd
     )
