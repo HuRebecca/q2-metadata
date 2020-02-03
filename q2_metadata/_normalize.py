@@ -12,7 +12,10 @@ from os.path import abspath, dirname
 import qiime2 as q2
 import pandas as pd
 
-from q2_metadata.normalization._metadata import check_md
+# writing default rule.yml files based on metadata standards (KL template + AGP suppl)
+# --> NEEDS TO BE REVIEWED AND VALIDATED BY GAIL / EXPERT KNOWLEDGE
+from q2_metadata.normalization._prepare_default_rules import prepare_rules_from_template_and_qiita
+
 from q2_metadata.normalization._io_utils import get_rules, get_databases
 from q2_metadata.normalization._waving_flags import show_rules_structure_issues
 
@@ -26,17 +29,18 @@ def normalize(metadata: q2.Metadata) -> q2.Metadata:
     :return:
         A curated metadata table.
     """
-
-
-
     # Get metadata as pandas data frame
     md = metadata.to_dataframe()
 
-    md_valid = check_md(md)
+    # THIS WILL PROBABLY NOT BE HERE IN THE PACKAGE,
+    # BUT I FIGURED MY PARSING OF THE RULES DEFAULTS FROM
+    #  (1) Qiita metadata (Knight lab website)
+    #  (2) AGP metadata variables definitions
+    # COULD BE REVIEWED HERE AND MADE TESTED/REPRODUCIBLE
+    prepare_rules_from_template_and_qiita()
 
     # Get path of the executable
     root_dir = dirname(abspath(__file__))
-
     rules, rules_dict, issues = get_rules(root_dir, md)
 
     if issues:
