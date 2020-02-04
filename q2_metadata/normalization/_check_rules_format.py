@@ -9,6 +9,28 @@
 import datetime
 import pandas as pd
 
+from q2_metadata.normalization._io_utils import get_rules_template
+
+
+def check_mandatory_rules(rules: dict) -> dict:
+    """
+    :param rules:
+        Keys    = for the current variable,
+        Values  = dict of rule -> values
+    :return: list of lists such as ['variable', 'rule', 1]
+        'variable' is the current file name / metadata variable.
+        'rule' is the current rule in the file.
+        1 is when the rule is missing in the reference.
+    """
+    # mandatory_rules = ['blank', 'format', 'missing']
+    mandatory_rules = ['blank', 'format']
+    missing = {}
+    for rule_name, rule in rules.items():
+        for mandatory_rule in mandatory_rules:
+            if mandatory_rule not in rule:
+                missing.setdefault(mandatory_rule, []).append(rule_name)
+    return missing
+
 
 def check_val_type(v, v_exp: list, k: str, rule_name: str) -> str:
     """
@@ -166,4 +188,13 @@ def traverse_rules(rule_name: str, rule: dict, rules_template: dict, issues: lis
                     issues.append([rule_name, typ, k, v, v_exp, 'value not in dictionary'])
             elif typ == 'type' and check_val_type(v, v_exp, k, rule_name):
                 issues.append([rule_name, typ, k, key, v, 'value not of expected type'])
+    return issues
+
+
+def check_rules_issues(rules: dict, md: pd.DataFrame) -> list:
+    rules_template = get_rules_template()
+    issues = []
+    for rule_name, rule in rules.items():
+        # check that the passed rules are in correct format and types
+        issues = traverse_rules(rule_name, rule, rules_template, issues, md)
     return issues
