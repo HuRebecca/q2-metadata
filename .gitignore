@@ -76,3 +76,4 @@ q2_metadata/normalization/rules/default
 # pyCharm stuff
 .idea/
 venv/
+/q2_metadata/assets/metadata_template_extra_columns_origin.txt
