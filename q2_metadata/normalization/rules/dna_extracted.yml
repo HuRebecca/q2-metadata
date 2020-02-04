@@ -20,8 +20,6 @@
 # validation:                 # <-- completely remove if "No range applicable"
 # - No appropriate validation
 
-
-
 blank: Not applicable
 format: bool
 missing: Not provided

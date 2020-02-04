@@ -25,7 +25,7 @@ expected: Gazetteer ontology
 format: str
 remap:
   BEFORE: AFTER
-validation:
- - must exist
- - check ontology
- - flag typos
+check:
+ - exist
+ - ontology
+ - typos

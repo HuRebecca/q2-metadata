@@ -17,9 +17,10 @@ format: str
 remap:
   BEFORE: AFTER
 validation:
-  must exist: 1
-  check ontology: 1
-  flag typos: 1
   force_to_blank_if:
     is null:
     - host_taxid
+check:
+ - exist
+ - ontology
+ - typos
