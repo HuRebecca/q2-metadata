@@ -64,7 +64,7 @@ class NormalizationCheckRulesFormat(unittest.TestCase):
         str_in_dictionary = check_str_in_dictionary('a', ['b'], 'x', 'y')
         self.assertEqual(str_in_dictionary, error_expected)
 
-    def test_check_rule_in_temp(self):
+    def test_check_var_in_metadata(self):
         var_in_metadata = check_var_in_metadata(['col1', 'col2'], self.md, 'x', 'y')
         self.assertEqual(var_in_metadata, '')
         var_in_metadata = check_var_in_metadata(['COL1'], self.md, 'x', 'y')
@@ -78,6 +78,10 @@ class NormalizationCheckRulesFormat(unittest.TestCase):
         self.assertEqual(rule_in_temp, '')
         rule_not_in_temp = check_rule_in_temp('str', {'a': 'b'})
         self.assertEqual(rule_not_in_temp, 'rule "str" not in rules template')
+
+#    def test_traverse_rules(self):
+#        traversed_rules = traverse_rules()
+#        self.assertEqual(traversed_rules, '')
 
 
 if __name__ == '__main__':
