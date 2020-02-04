@@ -20,12 +20,32 @@ def check_val_type(v, v_exp: list, k: str, rule_name: str) -> str:
     """
     flag = ''
     if not [x for x in v_exp if isinstance(v, eval(x))]:
-        flag = 'value(s) to rule "%s" (variable "%s") not of expected type:' % (k, rule_name)
-        flag += '\n - %s' % '\n - '.join(v_exp)
+        flag = 'value(s) to rule "%s" of "%s" not of expected type' % (k, rule_name)
+        # flag += '\n - %s' % '\n - '.join(v_exp)
     return flag
 
 
-def check_val_in_dictionary(v: str, v_exp: list, k: str, rule_name: str):
+def check_list_in_dictionary(v: list, v_exp: list, k: str, rule_name: str) -> str:
+    """
+    :param v: one rule list of value(s) of the current rules file.
+    :param v_exp: the corresponding expected value(s) for the reference rules.
+    :param k: one rule of the current metadata rules file.
+    :param rule_name: current rule file name (i.e. metadata variable).
+    :return: an empty message (no problem encountered) or an error message.
+    """
+    flag = ''
+    # lowercase rule values that are activated booleans (i.e. if present: True)
+    v_lower = [x.lower() for x in v]
+    # flag the activated booleans that would miss in the reference
+    if sorted(set(v_exp) & set(v_lower)) != sorted(set(v_lower)):
+        not_in_dict_set = set(v_lower) ^ (set(v_exp) & set(v_lower))
+        not_in_dict = [x.split(',')[0] for x in v if x.lower() in not_in_dict_set]
+        flag = 'value(s) to rule "%s" of "%s" not in reference' % (k, rule_name)
+        # flag += '\n - %s' % '\n -'.join(not_in_dict)
+    return flag
+
+
+def check_str_in_dictionary(v: str, v_exp: list, k: str, rule_name: str) -> str:
     """
     :param v: one rule value(s) of the current rules file.
     :param v_exp: the corresponding expected value(s) for the reference rules.
@@ -35,15 +55,16 @@ def check_val_in_dictionary(v: str, v_exp: list, k: str, rule_name: str):
     """
     flag = ''
     if not v.lower() in [x.lower() for x in v_exp]:
-        flag = 'value(s) to rule "%s" (variable "%s") not in default dictionary (case-insensitive):' % (k, rule_name)
-        flag += '\n - %s' % '\n - '.join(v_exp)
+        flag = 'value(s) to rule "%s" of "%s" not in reference' % (k, rule_name)
+        # flag += '\n - %s' % '\n - '.join(v_exp)
     return flag
 
 
-def check_var_in_metadata(v: list, md: pd.DataFrame, k: str, rule_name: str):
+def check_var_in_metadata(v: list, md: pd.DataFrame, k: str, rule_name: str) -> str:
     """
     :param v: one rule value(s) of the current rules file.
     :param md: input metadata table (only the columns values are used).
+    :param k: one rule of the current metadata rules file.
     :param rule_name: current rule file name (i.e. metadata variable).
     :return: an empty message (no problem encountered) or an error message.
     """
@@ -52,62 +73,8 @@ def check_var_in_metadata(v: list, md: pd.DataFrame, k: str, rule_name: str):
     md_columns = set([x.lower() for x in md.columns.tolist()])
     if sorted(md_columns & v_lower) != sorted(v_lower):
         not_in_dict = sorted(v_lower ^ (md_columns & v_lower))
-        flag = 'variable(s) to rule "%s" (variable "%s") not in metadata columns (case-insensitive):' % (k, rule_name)
-        flag += '\n - %s' % '\n - '.join(not_in_dict)
-    return flag
-
-
-def check_bool_in_dict(v: list, v_exp: dict, k: str, rule_name: str):
-    """
-
-    THIS FUNCTION MAY NEED REVISION UPON DEFINITION IF THE RULES SCOPES (AND HENCE FORMAT)
-    THIS FUNCTION MAY NEED REVISION UPON DEFINITION IF THE RULES SCOPES (AND HENCE FORMAT)
-    THIS FUNCTION MAY NEED REVISION UPON DEFINITION IF THE RULES SCOPES (AND HENCE FORMAT)
-
-    This function treat sub-rules that could by a list in the current rules file,
-    but that exists as booleans in the reference, e.g.
-        in the rule file:
-
-            validation:
-            - must exist
-            - check ontology
-            - flag typos
-
-        in the reference:
-
-            validation,dict:
-              check ontology,bool: 1
-              flag typos,bool: 1
-              force_to_blank_if,dict:
-                is null,txt:
-                - variable
-              must exist,bool: 1
-
-    Check if the booleans in the rule list exist in the labeled-as-booleans key of the reference.
-
-    :param v: one rule value(s) of the current rules file.
-    :param v_exp: the corresponding expected value(s) for the reference rules.
-    :param k: one rule of the current metadata rules file.
-    :param rule_name: current rule file name (i.e. metadata variable).
-    :return: an empty message (no problem encountered) or an error message.
-    """
-    flag = ''
-    # get the booleans existing as dict keys in the reference for the current rule (and lowercase)
-    v_exp_lower = [x.split(',')[0].lower() for x in v_exp if x.split(',')[1] == 'bool']
-    # if there are reference booleans (that's could be hard-coded but could be the case for many rules)
-    if v_exp_lower:
-        # lowercase rule values that are activated booleans (i.e. if present: True)
-        v_lower = [x.lower() for x in v]
-        # v_lower = [x.lower() for x in v if isinstance(x, str)]
-        # flag the activated booleans that would miss in the reference
-        if sorted(set(v_exp_lower) & set(v_lower)) != sorted(set(v_lower)):
-            not_in_dict_set = set(v_lower) ^ (set(v_exp_lower) & set(v_lower))
-            not_in_dict = [x.split(',')[0] for x in v if x.lower() in not_in_dict_set]
-            flag = 'bool value(s) to sub-rule "%s" (variable "%s") not in default dictionary (case-insensitive):' % \
-            (k, rule_name)
-            flag += '\n - %s' % '\n -'.join(not_in_dict)
-    else:
-        flag = 'value(s) to rule "%s" (variable "%s") should not be a dict' % (k, rule_name)
+        flag = 'variable(s) to rule "%s" of "%s" not in metadata' % (k, rule_name)
+        # flag += '\n - %s' % '\n - '.join(not_in_dict)
     return flag
 
 
@@ -163,46 +130,40 @@ def traverse_rules(rule_name: str, rule: dict, rules_template: dict, issues: lis
     :param md: input metadata table (only the columns values are used).
     :return: collected problems encountered for this and other rules (appended).
     """
-    #
+    columns_checker = ['is null,txt']
     # {'blank': ['blank,txt', 'txt'], ..., 'validation': ['validation,dict', 'dict']}
     rules_template_keys = get_rules_template_keys(rules_template)
-
     # parse the current rule keys
     cur_rule = rule.copy()
     for k, v in cur_rule.items():
-
+        # most simple check: rule must be present in the all-possible rules template
         if check_rule_in_temp(k, rules_template_keys):
             issues.append([rule_name, typ, k, v, 'must exist in template', 'rule not in template'])
             continue
-
+        # get standard for the rule, i.e. name in actual file and its type of value(s)
         key, typ = rules_template_keys[k]
+        # get the expected value(s)
         v_exp = rules_template[key]
         if isinstance(v, dict):
-            # end of a rule (nested dict is for replacement)
+            # end if nested dict is for replacement / mapping ...
             if v_exp == {'str': 'str'}:
                 continue
-            # not the end of rule (keep going in nested dict)
+            # ... or keep going
             else:
                 issues = traverse_rules(rule_name, v, v_exp, issues, md)
         else:
-            # -----------------------------------------------------------------------------
-            # this entire part could be more "hard-coded"
             if typ == 'dict':
-                flag = check_bool_in_dict(v, v_exp, k, rule_name)
-                if flag.startswith('value'):
-                    issues.append([rule_name, typ, k, v, v_exp, 'value is a mapping'])
-                elif flag.startswith('bool'):
-                    issues.append([rule_name, typ, k, v, v_exp, 'bool value not in dictionary'])
+                issues.append([rule_name, typ, k, v, v_exp, 'value is a mapping'])
             elif typ == 'txt':
                 if isinstance(v, datetime.date):
                     continue
                 # case where the passed values to check are the metadata columns
-                if key == 'is null,txt':
-                    if check_var_in_metadata(v, md, k, rule_name):
-                        issues.append([rule_name, typ, k, v, 'metadata columns', 'variable not in metadata'])
-                elif check_val_in_dictionary(v, v_exp, k, rule_name):
+                elif key in columns_checker and check_var_in_metadata(v, md, k, rule_name):
+                    issues.append([rule_name, typ, k, v, 'metadata columns', 'variable not in metadata'])
+                elif isinstance(v, list) and check_list_in_dictionary(v, v_exp, k, rule_name):
+                    issues.append([rule_name, typ, k, v, v_exp, 'value not in dictionary'])
+                elif isinstance(v, str) and check_str_in_dictionary(v, v_exp, k, rule_name):
                     issues.append([rule_name, typ, k, v, v_exp, 'value not in dictionary'])
             elif typ == 'type' and check_val_type(v, v_exp, k, rule_name):
                 issues.append([rule_name, typ, k, key, v, 'value not of expected type'])
-            # -----------------------------------------------------------------------------
     return issues
