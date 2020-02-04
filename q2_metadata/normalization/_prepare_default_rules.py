@@ -327,7 +327,6 @@ def write_rules(files_data: dict) -> None:
                 o.write('%s\n' % rule)
             o.write('remap:\n  BEFORE: AFTER\n')
             o.write(default_validation())
-        print(rule_fp)
 
 
 def prepare_rules_from_template_and_qiita() -> None:
