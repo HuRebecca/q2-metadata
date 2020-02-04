@@ -56,8 +56,6 @@ def get_rules(root_dir: str) -> dict:
     """
     rules = {}
     for rule_name, rule_path in get_paths_dict(root_dir, "rules").items():
-        if rule_name not in ['country', 'height_cm']:
-            continue
         rule = parse_yml_file(rule_path)
         rules[rule_name] = rule
     return rules
@@ -73,11 +71,13 @@ def get_paths_dict(root_dir: str, db_rule: str) -> dict:
     :return: file paths as values per database/rule as key
     """
     if db_rule == 'databases':
-        paths = glob('%s/normalization/%s/*/*.csv' % (root_dir, db_rule))
-        cur_dict = dict([path.split('/')[-2], path] for path in paths)
+        path = '%s/normalization/%s/*/*.csv' % (root_dir, db_rule)
+        files = glob(path)
+        cur_dict = dict([fil.split('/')[-2], fil] for fil in files)
     elif db_rule == 'rules':
-        paths = glob('%s/normalization/%s/*.yml' % (root_dir, db_rule))
-        cur_dict = dict([splitext(basename(path))[0], path] for path in paths)
+        path = '%s/normalization/%s/*.yml' % (root_dir, db_rule)
+        files = glob(path)
+        cur_dict = dict([splitext(basename(fil))[0], fil] for fil in files)
     else:
         cur_dict = {}
     return cur_dict
