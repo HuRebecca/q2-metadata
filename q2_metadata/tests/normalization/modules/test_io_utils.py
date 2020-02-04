@@ -8,6 +8,7 @@
 
 import unittest
 
+import pkg_resources
 from os.path import abspath, dirname, exists
 from pandas.testing import assert_frame_equal
 import pandas as pd
@@ -21,15 +22,17 @@ from q2_metadata.normalization._io_utils import (
     get_databases
 )
 
+ROOT = pkg_resources.resource_filename('q2_metadata', 'tests')
 
 class NormalizationInputTests(unittest.TestCase):
     def setUp(self):
-        self.root = '%s/normalization' % dirname(abspath(__file__))
+        self.root = ROOT
         self.rules_dict = {
-            'dummy_rule': '%s/rules/dummy_rule.yml' % self.root
+            'dummy_rule': '%s/normalization/rules/dummy_rule.yml' % self.root,
+            'dummy_rule2': '%s/normalization/rules/dummy_rule2.yml' % self.root
         }
         self.databases_dict = {
-            'dummy_db': '%s/databases/dummy_db/dummy_db.csv' % self.root
+            'dummy_db': '%s/normalization/databases/dummy_db/dummy_db.csv' % self.root
         }
         self.dummy_db = {'dummy_db': pd.DataFrame(
             {'entry': ['entry1', 'entry2'],
@@ -51,10 +54,9 @@ class NormalizationInputTests(unittest.TestCase):
                                  'minimum,type': ['int', 'float'],
                                  'no range applicable,bool': 1},
             'remap,dict': {'str': 'str'},
-            'validation,dict': {'force_to_blank_if,dict': {'is null,txt': ['variable']},
-                              'check ontology,bool': 1,
-                              'flag typos,bool': 1,
-                              'must exist,bool': 1}}
+            'validation,dict': {'force_to_blank_if,dict': {'is null,txt': ['variable']}},
+            'check,txt': ['exist', 'ontology', 'typos']
+        }
 
     def test_get_rules_template(self):
         rules_template = get_rules_template()
@@ -78,8 +80,9 @@ class NormalizationInputTests(unittest.TestCase):
         self.assertEqual(rev_dict, {1: ['A'], 2: ['A','B'], 3: ['A','B'], 4: ['B']})
 
     def test_get_rules(self):
-        test_rules = get_rules(self.rules_dict)
-        self.assertEqual(test_rules, {'dummy_rule': {'rule1': 'dont'}})
+        test_rules = get_rules(self.root)
+        self.assertEqual(test_rules, {'dummy_rule': {'rule1': 'dont'},
+                                      'dummy_rule2': {'rule2': 'see rule 1'}})
 
     def test_get_databases(self):
         test_databases = get_databases(self.root)
