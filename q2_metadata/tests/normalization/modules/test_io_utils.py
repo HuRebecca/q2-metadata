@@ -7,43 +7,23 @@
 # ----------------------------------------------------------------------------
 
 import unittest
+
+from os.path import abspath, dirname, exists
 from pandas.testing import assert_frame_equal
 import pandas as pd
 
-from os.path import abspath, dirname, exists
-from q2_metadata._normalize import (
+from q2_metadata.normalization._io_utils import (
+    get_rules_template,
     get_paths_dict,
     parse_yml_file,
+    get_rules_dict,
     get_rules,
     get_databases
 )
 
 
-
-#class NormalizationMetadataHandling(unittest.TestCase):
-
-#    def setUp(self) -> None:
-#        self.md = pd.DataFrame(
-#            {
-#                'col1': ['1', '2', np.nan],
-#                'col2': ['A', 'B', np.nan],
-#                'col3': [1.0, 2.0, 3.0],
-#            }
-#        )
-#        self.rules = {
-#            'col1': {}
-#        }
-
-#    def test_(self):
-#         = (self.rules_dict)
-#        self.assertEqual()
-
-
-
-
 class NormalizationInputTests(unittest.TestCase):
-
-    def setUp(self) -> None:
+    def setUp(self):
         self.root = '%s/normalization' % dirname(abspath(__file__))
         self.rules_dict = {
             'dummy_rule': '%s/rules/dummy_rule.yml' % self.root
@@ -55,8 +35,30 @@ class NormalizationInputTests(unittest.TestCase):
             {'entry': ['entry1', 'entry2'],
             'data': ['data1', 'data2']}
         )}
-        # print("self.databases_dict", self.databases_dict)
-        # print("self.rules_dict", self.rules_dict)
+        self.template_dict = {
+            'blank,txt': ['not applicable',
+                        'not collected',
+                        'not provided',
+                        'restricted access'],
+            'expected,type': ['str', 'list'],
+            'format,txt': ['bool', 'float', 'int', 'str'],
+            'missing,txt': ['not applicable',
+                          'not collected',
+                          'not provided',
+                          'restricted access'],
+            'normalization,dict': {'gated_value,txt': ['Out of bounds'],
+                                 'maximum,type': ['int', 'float'],
+                                 'minimum,type': ['int', 'float'],
+                                 'no range applicable,bool': 1},
+            'remap,dict': {'str': 'str'},
+            'validation,dict': {'force_to_blank_if,dict': {'is null,txt': ['variable']},
+                              'check ontology,bool': 1,
+                              'flag typos,bool': 1,
+                              'must exist,bool': 1}}
+
+    def test_get_rules_template(self):
+        rules_template = get_rules_template()
+        self.assertEqual(rules_template, self.template_dict)
 
     def test_get_paths_dict(self):
         test_db_dict = get_paths_dict(self.root, "databases")
@@ -64,19 +66,23 @@ class NormalizationInputTests(unittest.TestCase):
         test_rules_dict = get_paths_dict(self.root, "rules")
         self.assertEqual(test_rules_dict, self.rules_dict)
         test_nothing_dict = get_paths_dict(self.root, "nothing")
-        self.assertFalse(test_nothing_dict)
+        self.assertEqual(test_nothing_dict, {})
 
     def test_parse_yml_file(self):
         self.assertTrue(exists(self.rules_dict['dummy_rule']))
         test_rule = parse_yml_file(self.rules_dict['dummy_rule'])
         self.assertEqual(test_rule, {'rule1': 'dont'})
 
+    def test_collect_columns_per_rule_key(self):
+        rev_dict = get_rules_dict({'A': [1,2,3], 'B': [2,3,4]})
+        self.assertEqual(rev_dict, {1: ['A'], 2: ['A','B'], 3: ['A','B'], 4: ['B']})
+
     def test_get_rules(self):
         test_rules = get_rules(self.rules_dict)
         self.assertEqual(test_rules, {'dummy_rule': {'rule1': 'dont'}})
 
     def test_get_databases(self):
-        test_databases = get_databases(self.databases_dict)
+        test_databases = get_databases(self.root)
         for db_key, test_database in test_databases.items():
             assert_frame_equal(test_database, self.dummy_db[db_key])
 
