@@ -32,6 +32,7 @@ validation,dict:
   force_to_blank_if,dict:
     is null,txt:
     - variable
-  check ontology,bool: 1
-  flag typos,bool: 1
-  must exist,bool: 1
+check,txt:
+ - exist
+ - ontology
+ - typos
