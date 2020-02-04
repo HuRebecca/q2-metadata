@@ -46,7 +46,7 @@ def get_agp_definitions() -> pd.DataFrame:
 
     :return: the above columns for each variable as a data frame.
     """
-    agp_suppl = join(TEMPLATES, 'inline-supplementary-material-3.txt')
+    agp_suppl = join(TEMPLATES, 'agp.txt')
     agp_suppl_pd = pd.read_csv(agp_suppl, header=0, sep='\t')
     agp_suppl_pd.rename(columns={
         'Description': 'Definition',
