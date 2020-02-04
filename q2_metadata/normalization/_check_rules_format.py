@@ -138,7 +138,7 @@ def traverse_rules(rule_name: str, rule: dict, rules_template: dict, issues: lis
     for k, v in cur_rule.items():
         # most simple check: rule must be present in the all-possible rules template
         if check_rule_in_temp(k, rules_template_keys):
-            issues.append([rule_name, typ, k, v, 'must exist in template', 'rule not in template'])
+            issues.append([rule_name, '', k, v, 'must exist in template', 'rule not in template'])
             continue
         # get standard for the rule, i.e. name in actual file and its type of value(s)
         key, typ = rules_template_keys[k]
