@@ -13,13 +13,15 @@ import pkg_resources
 from glob import glob
 from os.path import basename, splitext
 
-from ._rules_format import traverse_rules
+from ._check_rules_format import traverse_rules
 
 TEMPLATES = pkg_resources.resource_filename('q2_metadata', 'assets')
 
 
-def collect_columns_per_rule_key(rules: dict) -> dict:
+def get_rules_dict(rules: dict) -> dict:
     """
+    "revert" dict to get lists of keys per value
+    (i.e. metadata columns that have a rule)
     :param rules:
         Keys    : metadata columns
         Values  : rules dicts
@@ -27,25 +29,11 @@ def collect_columns_per_rule_key(rules: dict) -> dict:
         Keys    : rule name
         Values  : list of metadata columns
     """
-    all_rule_names = {}
-    for col, rule in rules.items():
-        for rule_key in rule:
-            all_rule_names.setdefault(rule_key, []).append(col)
-    return all_rule_names
-
-
-def get_rules_dict(rules: dict) -> dict:
-    """
-    :param rules:
-        Keys    : metadata columns
-        Values  : rules dicts
-    :return:
-        Keys    : rule name
-        Values  : possible values for the rule
-    """
-    # "revert" dict to get lists of keys per value (i.e. metadata columns that have a rule)
-    columns_per_rule_key = collect_columns_per_rule_key(rules)
-    return columns_per_rule_key
+    d = {}
+    for k, vs in rules.items():
+        for v in vs:
+            d.setdefault(v, []).append(k)
+    return d
 
 
 def get_rules_template() -> dict:
@@ -68,21 +56,29 @@ def get_rules(root_dir: str, md: pd.DataFrame) -> (dict, dict):
         Keys    : metadata columns
         Values  : rules dicts (from yaml to dict using yaml.load())
     """
-    # get per-column info
-    # columns_info_fp = '%s/databases/defaults/columns_info.tsv' % root_dir
-    # columns_info = pd.read_csv(columns_info_fp, header=0, sep='\t')
-
+    # mandatory_rules = ['blank', 'format', 'missing']
+    mandatory_rules = ['blank', 'format']
     rules_template = get_rules_template()
 
     rules = {}
     issues = []
-    for col, rule_path in get_paths_dict(root_dir, "rules").items():
+    missing = []
+    for rule_name, rule_path in get_paths_dict(root_dir, "rules").items():
+
+        if rule_name not in ['country', 'height_cm']:
+            continue
+
         rule = parse_yml_file(rule_path)
-        rules[col] = rule
+        rules[rule_name] = rule
+
+        # check that all the mandatory rules are present in the current rules
+        missing.extend([[rule_name, m, 1] for m in mandatory_rules if m not in rule])
+
         # check that the passed rules are in correct format and types
-        issues = traverse_rules(col, rule, rules_template, issues, md)
+        issues = traverse_rules(rule_name, rule, rules_template, issues, md)
+
     rules_dict = get_rules_dict(rules)
-    return rules, rules_dict, issues
+    return rules, rules_dict, issues, missing
 
 
 def get_paths_dict(root_dir: str, db_rule: str) -> dict:
