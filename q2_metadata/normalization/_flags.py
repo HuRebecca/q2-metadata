@@ -16,7 +16,7 @@ def show_issues(o, issues: list) -> None:
                    'value', 'reference', 'message'])
     for error_type, error_type_pd in issues_pd.groupby('message'):
         # print('[%s cases] "%s"' % (error_type_pd.shape[0], error_type))
-        o.write('[%s cases] "%s"\n' % (error_type_pd.shape[0], error_type))
+        o.write('[issue] "%s"\n' % error_type)
         for error_file, error_file_pd in error_type_pd.groupby('file'):
             # print('%s: %s' % (error_file, ', '.join(error_file_pd.rule.tolist())))
             o.write('\t%s: %s\n' % (error_file, ', '.join(error_file_pd.rule.tolist())))
