@@ -15,9 +15,10 @@ import pandas as pd
 # writing default rule.yml files based on metadata standards (KL template + AGP suppl)
 # --> NEEDS TO BE REVIEWED AND VALIDATED BY GAIL / EXPERT KNOWLEDGE
 from q2_metadata.normalization._prepare_default_rules import prepare_rules_from_template_and_qiita
-
-from q2_metadata.normalization._io_utils import get_rules, get_databases
-from q2_metadata.normalization._waving_flags import show_rules_structure_issues
+from q2_metadata.normalization._check_rules_format import check_rules_issues, check_mandatory_rules
+from q2_metadata.normalization._io_utils import get_rules, get_rules_dict, get_databases
+from q2_metadata.normalization._flags import show_issues, show_missing
+from q2_metadata.normalization._metadata import check_rules_in_md
 
 
 # annotate how types are expected to be passed to the function
@@ -29,23 +30,43 @@ def normalize(metadata: q2.Metadata) -> q2.Metadata:
     :return:
         A curated metadata table.
     """
+    # Get path of the executable
+    root_dir = dirname(abspath(__file__))
+
     # Get metadata as pandas data frame
     md = metadata.to_dataframe()
 
-    # THIS WILL PROBABLY NOT BE HERE IN THE PACKAGE,
-    # BUT I FIGURED MY PARSING OF THE RULES DEFAULTS FROM
-    #  (1) Qiita metadata (Knight lab website)
-    #  (2) AGP metadata variables definitions
-    # COULD BE REVIEWED HERE AND MADE TESTED/REPRODUCIBLE
+    #  = = = = THIS WILL PROBABLY NOT BE HERE IN THE PACKAGE = = = = =
+    #       BUT I FIGURED MY PARSING OF THE RULES DEFAULTS FROM
+    #           (1) Qiita metadata (Knight lab website)
+    #           (2) AGP metadata variables definitions
+    #       COULD BE REVIEWED HERE AND MADE TESTED/REPRODUCIBLE
     prepare_rules_from_template_and_qiita()
+    #  = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
-    # Get path of the executable
-    root_dir = dirname(abspath(__file__))
-    rules, rules_dict, issues = get_rules(root_dir, md)
+    # =================================================================
+    # Get rules business
+    rules = get_rules(root_dir)
+    rules_dict = get_rules_dict(rules)
+    issues = check_rules_issues(rules, md)
+    missing = check_mandatory_rules(rules)
+    if issues or missing:
+        out_flags = '%s/normalization/outputs/rules_check.txt' % root_dir
+        with open(out_flags, 'w') as o:
+            show_issues(o, issues)
+            show_missing(o, missing)
+        print('Issues/Missing rules... see %s\nExiting...' % out_flags)
+        # sys.exit(1)
+    # =================================================================
 
-    if issues:
-        show_rules_structure_issues(root_dir, issues)
-        sys.exit(1)
+    print("rules_dict")
+    print(rules_dict)
+
+    # ==== IN DEV ====
+    check_rules_in_md(md, rules)
+    # ==== IN DEV ====
+
+    print(kfb)
 
     databases = get_databases(root_dir)
 
