@@ -23,7 +23,7 @@ def check_mandatory_rules(rules: dict) -> dict:
         1 is when the rule is missing in the reference.
     """
     # mandatory_rules = ['blank', 'format', 'missing']
-    mandatory_rules = ['blank', 'format']
+    mandatory_rules = ['format']
     missing = {}
     for rule_name, rule in rules.items():
         for mandatory_rule in mandatory_rules:
