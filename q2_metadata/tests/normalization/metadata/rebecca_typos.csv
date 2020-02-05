@@ -1,21 +1,21 @@
-age_years,bmi,weight_kg,HEI_TotalScore,HEI_TotalFruit,types_of_plants,red_meat_frequency,sex,country,host_taxid
-29.16,34.8491848392577,64.34600580049475,98,0,Unspecified,Occasionally (1-2 times/week),Unspecified,Missing: Not Provided,[MOUSE]
-95.76,16.63984185939698,66.16683025397782,98,Missing: Not Provided,21 to 30,Rarely (less than once/week),Unspecified,China,Missing: Not provided
-90.8,24.399116796448507,61.012820847115364,88,1,< 5,Every Day,f,USA,Cat
-49.51,37.39085447473202,63.72572506709675,60,2,21 to 30,Rarely (less than once/week),male,Missing: Not Provided,[DOG]
-99.10000000000001,14.740821474333792,69.76839283002259,85,4,21 to 30,Daily,Unspecified,Argentina,[MOUSE]
-47.39,24.9877081539067,61.54087139707988,89,0,More than 10,often,M,CAN,Cat
-109.84,21.657707017616296,62.498078024470175,50,4,Missing: Not provided,Rarely (less than once/week),Unspecified,China,Missing: Not provided
-16.22,26.255478248404323,64.31941571295732,62,3,Unspecified,Occasionally (1-2 times/week),Missing: Not provided,United Kingdom,[CAT]
-38.2,25.14560078040146,67.40731260286174,59,3,Less then 5,often,m,CAN,Dog
-106.41,26.33502872561789,63.08871395757612,99,1,45,Frequently,m,USA,dog
-96.07000000000001,19.965157887116113,69.22792668704575,15,Missing: Not Provided,More than 30,Regularly (3-5 times/week),Unspecified,Japan,[CAT]
-81.89,22.857163526297427,56.57268079698129,20,2,11 to 20,Never,male,Columbia,9606
-34.1,21.230450967665078,53.555370220403496,67,1,< 5,Frequently,F,UK,dog
-99.4,26.9589515008424,61.03615106707277,94,2,Unspecified,Occasionally (1-2 times/week),Unspecified,Canada,9606
-2.24,19.244867138299995,58.68690113034171,6,Missing: Not Provided,< 5,Every Day,m,America,Cat
-96.19,21.254435180716058,62.81310677764266,22,2,More than 10,often,m,usa,Dog
-14.59,16.19566964516288,62.83063719036916,68,Missing: Not Provided,6 to 10,Never,male,United States,[CAT]
-30.95,21.940343144314195,55.93495248125553,84,Missing: Not Provided,45,Frequently,M,usa,Cat
-7.61,21.173561138817252,63.32879410905034,41,1,Less then 5,Every Day,M,usa,Cat
-49.68,27.483829326100764,65.38920215653567,27,3,Less then 5,often,F,UK,Cat
+age_years	bmi	weight_kg	HEI_TotalScore	HEI_TotalFruit	types_of_plants	red_meat_frequency	sex	country	host_taxid
+29.16	34.8491848392577	64.34600580049475	98	0	Unspecified	Occasionally (1-2 times/week)	Unspecified	Missing: Not Provided	[MOUSE]
+95.76	16.63984185939698	66.16683025397782	98	Missing: Not Provided	21 to 30	Rarely (less than once/week)	Unspecified	China	Missing: Not provided
+90.8	24.399116796448507	61.012820847115364	88	1	< 5	Every Day	f	USA	Cat
+49.51	37.39085447473202	63.72572506709675	60	2	21 to 30	Rarely (less than once/week)	male	Missing: Not Provided	[DOG]
+99.10000000000001	14.740821474333792	69.76839283002259	85	4	21 to 30	Daily	Unspecified	Argentina	[MOUSE]
+47.39	24.9877081539067	61.54087139707988	89	0	More than 10	often	M	CAN	Cat
+109.84	21.657707017616296	62.498078024470175	50	4	Missing: Not provided	Rarely (less than once/week)	Unspecified	China	Missing: Not provided
+16.22	26.255478248404323	64.31941571295732	62	3	Unspecified	Occasionally (1-2 times/week)	Missing: Not provided	United Kingdom	[CAT]
+38.2	25.14560078040146	67.40731260286174	59	3	Less then 5	often	m	CAN	Dog
+106.41	26.33502872561789	63.08871395757612	99	1	45	Frequently	m	USA	dog
+96.07000000000001	19.965157887116113	69.22792668704575	15	Missing: Not Provided	More than 30	Regularly (3-5 times/week)	Unspecified	Japan	[CAT]
+81.89	22.857163526297427	56.57268079698129	20	2	11 to 20	Never	male	Columbia	9606
+34.1	21.230450967665078	53.555370220403496	67	1	< 5	Frequently	F	UK	dog
+99.4	26.9589515008424	61.03615106707277	94	2	Unspecified	Occasionally (1-2 times/week)	Unspecified	Canada	9606
+2.24	19.244867138299995	58.68690113034171	6	Missing: Not Provided	< 5	Every Day	m	America	Cat
+96.19	21.254435180716058	62.81310677764266	22	2	More than 10	often	m	usa	Dog
+14.59	16.19566964516288	62.83063719036916	68	Missing: Not Provided	6 to 10	Never	male	United States	[CAT]
+30.95	21.940343144314195	55.93495248125553	84	Missing: Not Provided	45	Frequently	M	usa	Cat
+7.61	21.173561138817252	63.32879410905034	41	1	Less then 5	Every Day	M	usa	Cat
+49.68	27.483829326100764	65.38920215653567	27	3	Less then 5	often	F	UK	Cat
