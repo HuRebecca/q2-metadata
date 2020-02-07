@@ -23,5 +23,3 @@
 blank: Not applicable
 format: bool
 missing: Not provided
-remap:
-  BEFORE: AFTER

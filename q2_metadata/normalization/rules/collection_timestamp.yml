@@ -22,7 +22,5 @@
 # blank: no blank value    # then rather only leave "- must exist" in "validation"
 
 format: 2016-11-22
-remap:
-  BEFORE: AFTER
 check:
  - exist

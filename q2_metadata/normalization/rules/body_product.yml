@@ -31,8 +31,6 @@ expected:
 - UBERON:tears
 - UBERON:cerumen
 format: str
-remap:
-  BEFORE: AFTER
 validation:
   force_to_blank_if:
     is null:

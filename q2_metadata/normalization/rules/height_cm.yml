@@ -12,8 +12,6 @@ normalization:
   gated_value: Out of bounds
   maximum: 120
   minimum: 0
-remap:
-  BEFORE: AFTER
 validation:
   force_to_blank_if:
     is null:

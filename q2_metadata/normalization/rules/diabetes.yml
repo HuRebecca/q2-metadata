@@ -20,8 +20,6 @@ expected:
 - Diagnosed by an alternative medicine practitioner
 normalization:
 - No range applicable
-remap:
-  BEFORE: AFTER
 validation:
   force_to_blank_if:
     is null:

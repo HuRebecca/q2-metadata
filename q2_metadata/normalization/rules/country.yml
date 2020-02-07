@@ -14,8 +14,6 @@
 blank: Not applicable
 expected: Gazetteer ontology
 format: str
-remap:
-  BEFORE: AFTER
 validation:
   force_to_blank_if:
     is null:

@@ -18,8 +18,6 @@ expected:
 - Occasionally (1-2 times/week)
 - Regularly (3-5 times/week)
 - Daily
-remap:
-  BEFORE: AFTER
 validation:
   force_to_blank_if:
     is null:

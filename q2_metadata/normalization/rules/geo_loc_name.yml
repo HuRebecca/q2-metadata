@@ -24,7 +24,7 @@ blank: Not applicable
 expected: Gazetteer ontology
 format: str
 remap:
-  BEFORE: AFTER
+  USA: US
 check:
  - exist
  - ontology
