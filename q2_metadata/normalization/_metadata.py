@@ -12,21 +12,77 @@ import pkg_resources
 TEMPLATES = pkg_resources.resource_filename('q2_metadata', 'assets')
 
 
-def check_rules_in_md(md: pd.DataFrame, rules: dict):
+def check_md_rules(md: pd.DataFrame, rules: dict) -> dict:
+    """
+    Collect the unique values of the metadata columns
+    for which there is also a rule file.
+    Otherwise, give a 0 values to columns without rule:
+        - these columns may have a rule but a slight typo,
+        e.g. rule "geo_loc_name" for column geo_locname".
+    :param md: metadata table to normalize.
+    :param rules:
+        keys    = yaml rules file for each column.
+        values  = rules (not used here).
+    :return:
+        keys    = columns of the metadata.
+        values  = unique values for the column.
+        e.g.
+            {'body_product_': 0,    <-- NO MATCH
+             'collection_timestamp': ['2016-11-22'],
+             'country': ['Not applicable', 'USA'],
+             'diabetes': ['I do not have this condition',
+              'Diagnosed by a medical professional (doctor, physician assistant)',
+              'Not provided'],
+             'DNA_extracted': ['Not provided', '0.33'],
+             'fermented_plant_frequency': ['Occasionally (1-2 times/week)',
+              'Never',
+              'Daily'],
+             'geo_locname': 0,      <-- NO MATCH
+             'height_Cm': ['10', '121', 'Not applicable'],
+             'host_taxid': 0        <-- NO MATCH
+             }
+    """
     matches = {}
-    print(md.columns.str.lower())
-    for rule in rules:
-        if rule in md.columns:
-            matches[rule] = md[rule].unique().tolist()
-        elif rule.lower() in md.columns.str.lower():
-            lower_rule_idx = md.columns.str.lower().index(rule.lower())
-            matches[rule] = md.iloc[:, lower_rule_idx].unique().tolist()
+    for col in md.columns:
+        if col in rules or col.lower() in rules:
+            matches[col] = md[col].unique().tolist()
         else:
-            matches[rule] = 0
-    print("matches")
-    print(matches)
-    print(matchesgf)
+            matches[col] = 0
     return matches
+
+
+def check_rules(factors: list, rule: list):
+    if 'exist' in rule:
+        # check that the variable has factors for all entries
+        pass
+    if 'ontology' in rule:
+        # check that the terms appear in the given ontology database
+        pass
+    if 'typos' in rule:
+        # check for typos...
+        pass
+
+
+def get_edits(matches: dict, rules: dict):
+    """
+    Get the values that should be replaced according to the
+    application of the rules.
+
+    :param matches: unique factors of the variables that have a rule.
+    :param rules: nested structure containing the rules values.
+    :return:
+    """
+    edits = []
+    for col, factors in matches.items():
+        if not factors:
+            continue
+        rule = rules[col]
+        check_rules(factors, rule['check'])
+        print(factors)
+        print(col_rules)
+        print(fds)
+
+
 
 def get_dtypes(md: pd.DataFrame):
     unknowns = {}
