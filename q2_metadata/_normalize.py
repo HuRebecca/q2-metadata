@@ -15,10 +15,15 @@ import pandas as pd
 # writing default rule.yml files based on metadata standards (KL template + AGP suppl)
 # --> NEEDS TO BE REVIEWED AND VALIDATED BY GAIL / EXPERT KNOWLEDGE
 from q2_metadata.normalization._prepare_default_rules import prepare_rules_from_template_and_qiita
+
+from q2_metadata.normalization._io_utils import get_rules, get_databases
 from q2_metadata.normalization._check_rules_format import check_rules_issues, check_mandatory_rules
-from q2_metadata.normalization._io_utils import get_rules, get_rules_dict, get_databases
 from q2_metadata.normalization._flags import show_issues, show_missing
-from q2_metadata.normalization._metadata import check_rules_in_md
+from q2_metadata.normalization._metadata import check_md_rules, get_edits
+
+import pkg_resources
+
+ROOT = pkg_resources.resource_filename("q2_metadata", "")
 
 
 # annotate how types are expected to be passed to the function
@@ -30,8 +35,6 @@ def normalize(metadata: q2.Metadata) -> q2.Metadata:
     :return:
         A curated metadata table.
     """
-    # Get path of the executable
-    root_dir = dirname(abspath(__file__))
 
     # Get metadata as pandas data frame
     md = metadata.to_dataframe()
@@ -46,12 +49,11 @@ def normalize(metadata: q2.Metadata) -> q2.Metadata:
 
     # =================================================================
     # Get rules business
-    rules = get_rules(root_dir)
-    rules_dict = get_rules_dict(rules)
+    rules, rules_dict = get_rules(ROOT)
     issues = check_rules_issues(rules, md)
     missing = check_mandatory_rules(rules)
     if issues or missing:
-        out_flags = '%s/normalization/outputs/rules_check.txt' % root_dir
+        out_flags = '%s/normalization/outputs/rules_check.txt' % ROOT
         with open(out_flags, 'w') as o:
             show_issues(o, issues)
             show_missing(o, missing)
@@ -63,12 +65,13 @@ def normalize(metadata: q2.Metadata) -> q2.Metadata:
     print(rules_dict)
 
     # ==== IN DEV ====
-    check_rules_in_md(md, rules)
+    matches = check_md_rules(md, rules)
+    edits = get_edits(matches, rules)
     # ==== IN DEV ====
 
     print(kfb)
 
-    databases = get_databases(root_dir)
+    databases = get_databases(ROOT)
 
     # md_out = do_normalize(md, rules)
 
