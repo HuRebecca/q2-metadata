@@ -1,0 +1,29 @@
+# variable: drinks_per_session
+# blank: "Not applicable"
+# Definition: How many alcoholic drinks on average a participant consumes in a sitting?
+# expected: "I don't drink", "1", "1-2", "2-3", "3-4", "4+"
+# Helpful hints: nan
+# missing: "Not provided"
+blank: Not applicable
+expected:
+- I don't drink
+- 1
+- 1-2
+- 2-3
+- 3-4
+- 4+
+format: str
+missing: Not provided
+remap:
+  BEFORE: AFTER
+normalization:
+  gated_value: Out of bounds
+  maximum: 120
+  minimum: 0
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

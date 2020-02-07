@@ -1,0 +1,25 @@
+# variable: host_weight
+# Definition: in kilograms preferred
+# Examples:
+
+#	* 45: "45"
+#	* not provided: "Not provided"
+#	* not applicable: "Not applicable"
+#	* 75: "75"
+#	* 68: "68"
+#	* 25: "25"
+# Helpful hints: of host
+format: float
+remap:
+  BEFORE: AFTER
+normalization:
+  gated_value: Out of bounds
+  maximum: 120
+  minimum: 0
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

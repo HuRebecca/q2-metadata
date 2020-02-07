@@ -1,0 +1,28 @@
+# variable: types_of_plants
+# blank: "Not applicable"
+# Definition: Number of plant species eaten in the week prior to sample collection
+# expected: "Less than 5", "6 to 10", "11 to 20", "21 to 30", "More than 30"
+# Helpful hints: nan
+# missing: "Not provided"
+blank: Not applicable
+expected:
+- Less than 5
+- 6 to 10
+- 11 to 20
+- 21 to 30
+- More than 30
+format: str
+missing: Not provided
+remap:
+  BEFORE: AFTER
+normalization:
+  gated_value: Out of bounds
+  maximum: 120
+  minimum: 0
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

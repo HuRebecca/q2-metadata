@@ -1,0 +1,25 @@
+# variable: ibd_diagnosis
+# blank: "Not applicable"
+# Definition: The type of IBD the participant was diagnosed with
+# expected: "Ulcerative colitis", "Crohn's disease"
+# Helpful hints: nan
+# missing: "Not provided"
+blank: Not applicable
+expected:
+- Ulcerative colitis
+- Crohn's disease
+format: str
+missing: Not provided
+remap:
+  BEFORE: AFTER
+normalization:
+  gated_value: Out of bounds
+  maximum: 120
+  minimum: 0
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

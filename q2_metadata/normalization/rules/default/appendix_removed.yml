@@ -1,0 +1,26 @@
+# variable: appendix_removed
+# blank: "Not applicable"
+# Definition: Whether the participants appendix has been removed
+# expected: "true", "false", "Not sure"
+# Helpful hints: nan
+# missing: "Not provided"
+blank: Not applicable
+expected:
+- true
+- false
+- Not sure
+format: bool
+missing: Not provided
+remap:
+  BEFORE: AFTER
+normalization:
+  gated_value: Out of bounds
+  maximum: 120
+  minimum: 0
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

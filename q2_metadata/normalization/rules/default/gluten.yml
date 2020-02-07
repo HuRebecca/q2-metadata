@@ -1,0 +1,25 @@
+# variable: gluten
+# blank: "Not applicable"
+# Definition: Does the participant follow a gluten free diet?
+# expected: "No", "I do not eat gluten because it makes me feel bad", "I was diagnosed with gluten allergy (anti-gluten IgG), but not celiac disease", "I was diagnosed with celiac disease"
+# Helpful hints: nan
+blank: Not applicable
+expected:
+- No
+- I do not eat gluten because it makes me feel bad
+- I was diagnosed with gluten allergy (anti-gluten IgG), but not celiac disease
+- I was diagnosed with celiac disease
+format: str
+remap:
+  BEFORE: AFTER
+normalization:
+  gated_value: Out of bounds
+  maximum: 120
+  minimum: 0
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

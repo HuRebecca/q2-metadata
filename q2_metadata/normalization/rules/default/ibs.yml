@@ -1,0 +1,27 @@
+# variable: ibs
+# blank: "Not applicable"
+# Definition: Has the participant been diagnosed with irritable bowel syndrome
+# expected: "I do not have this condition", "Self-diagnosed", "Diagnosed by a medical professional (doctor, physician assistant)", "Diagnosed by an alternative medicine practitioner"
+# Helpful hints: medical condition
+# missing: "Not provided"
+blank: Not applicable
+expected:
+- I do not have this condition
+- Self-diagnosed
+- Diagnosed by a medical professional (doctor, physician assistant)
+- Diagnosed by an alternative medicine practitioner
+format: str
+missing: Not provided
+remap:
+  BEFORE: AFTER
+normalization:
+  gated_value: Out of bounds
+  maximum: 120
+  minimum: 0
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

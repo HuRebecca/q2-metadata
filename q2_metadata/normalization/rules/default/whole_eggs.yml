@@ -1,0 +1,28 @@
+# variable: whole_eggs
+# blank: "Not applicable"
+# Definition: How frequently the participant consumes whole eggs (cooked or uncooked)
+# expected: "Never", "Rarely (less than once/week)", "Occasionally (1-2 times/week)", "Regularly (3-5 times/week)", "Daily"
+# Helpful hints: frequency
+# missing: "Not provided"
+blank: Not applicable
+expected:
+- Never
+- Rarely (less than once/week)
+- Occasionally (1-2 times/week)
+- Regularly (3-5 times/week)
+- Daily
+format: str
+missing: Not provided
+remap:
+  BEFORE: AFTER
+normalization:
+  gated_value: Out of bounds
+  maximum: 120
+  minimum: 0
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

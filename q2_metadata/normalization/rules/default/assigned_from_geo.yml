@@ -1,0 +1,21 @@
+# variable: assigned_from_geo
+# Definition: MIMARKS standard field - was a reference used for geolocation
+# expected: "true", "false"
+# Helpful hints: mimarks
+expected:
+- true
+- false
+format: bool
+remap:
+  BEFORE: AFTER
+normalization:
+  gated_value: Out of bounds
+  maximum: 120
+  minimum: 0
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

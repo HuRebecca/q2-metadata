@@ -1,0 +1,19 @@
+# variable: sample_name
+# blank: "10317.Blank.[identifier]"
+# expected: "10317.[nine-digit-barcode]"
+blank: 10317.Blank.[identifier]
+expected:
+- 10317.[nine-digit-barcode]
+remap:
+  BEFORE: AFTER
+normalization:
+  gated_value: Out of bounds
+  maximum: 120
+  minimum: 0
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

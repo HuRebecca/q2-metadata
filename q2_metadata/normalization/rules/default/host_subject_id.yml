@@ -1,0 +1,19 @@
+# variable: host_subject_id
+# blank: "Not applicable"
+# expected: "i.e. "d212da7fd7d7d16df1954534222cc5422868f35755406fc64a6bd01cf03c8d5bafcd1734ba70d78a21b45592a1adcc40ffe7fcfc4bc48f6da5cb46d4b21a3144"
+blank: Not applicable
+expected:
+- i.e. "d212da7fd7d7d16df1954534222cc5422868f35755406fc64a6bd01cf03c8d5bafcd1734ba70d78a21b45592a1adcc40ffe7fcfc4bc48f6da5cb46d4b21a3144
+remap:
+  BEFORE: AFTER
+normalization:
+  gated_value: Out of bounds
+  maximum: 120
+  minimum: 0
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

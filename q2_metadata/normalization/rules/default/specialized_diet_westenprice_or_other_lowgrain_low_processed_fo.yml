@@ -1,0 +1,25 @@
+# variable: specialized_diet_westenprice_or_other_lowgrain_low_processed_fo
+# blank: "Not applicable"
+# Definition: Does the participant follows a western price or other low grain, low processed food diet?
+# expected: "true", "false"
+# Helpful hints: nan
+# missing: "Not provided"
+blank: Not applicable
+expected:
+- true
+- false
+format: bool
+missing: Not provided
+remap:
+  BEFORE: AFTER
+normalization:
+  gated_value: Out of bounds
+  maximum: 120
+  minimum: 0
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

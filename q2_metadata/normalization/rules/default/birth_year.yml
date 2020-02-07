@@ -1,0 +1,24 @@
+# variable: birth_year
+# blank: "Not applicable"
+# Definition: The year the participant was born.
+# expected: "four digit years, ex. 1994"
+# Helpful hints: nan
+# missing: "Not provided"
+blank: Not applicable
+expected:
+- four digit years, ex. 1994
+format: datetime: YYYY
+missing: Not provided
+remap:
+  BEFORE: AFTER
+normalization:
+  gated_value: Out of bounds
+  maximum: 120
+  minimum: 0
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

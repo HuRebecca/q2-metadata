@@ -1,0 +1,29 @@
+# variable: bowel_movement_frequency
+# blank: "Not applicable"
+# Definition: Number of daily bowel movements
+# expected: "One", "Less than one", "Three", "Five or more", "Two", "Four"
+# Helpful hints: nan
+# missing: "Not provided"
+blank: Not applicable
+expected:
+- One
+- Less than one
+- Three
+- Five or more
+- Two
+- Four
+format: str
+missing: Not provided
+remap:
+  BEFORE: AFTER
+normalization:
+  gated_value: Out of bounds
+  maximum: 120
+  minimum: 0
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

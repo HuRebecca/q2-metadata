@@ -1,0 +1,22 @@
+# variable: weight_units
+# blank: "Not applicable"
+# Definition: the unit of weight (kilograms)
+# expected: "kg"
+# Helpful hints: nan
+blank: Not applicable
+expected:
+- kg
+format: str
+remap:
+  BEFORE: AFTER
+normalization:
+  gated_value: Out of bounds
+  maximum: 120
+  minimum: 0
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

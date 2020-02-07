@@ -1,0 +1,19 @@
+# variable: geo_loc_name
+# blank: "Not applicable"
+# expected: "i.e. USA:CA"
+blank: Not applicable
+expected:
+- i.e. USA:CA
+remap:
+  BEFORE: AFTER
+normalization:
+  gated_value: Out of bounds
+  maximum: 120
+  minimum: 0
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

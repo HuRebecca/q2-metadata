@@ -1,0 +1,25 @@
+# variable: fed_as_infant
+# blank: "Not applicable"
+# Definition: Food source as an infant (breast milk or formula)
+# expected: "Primarily breast milk", "Primarily infant formula", "A mixture of breast milk and formula", "Not sure"
+# Helpful hints: nan
+blank: Not applicable
+expected:
+- Primarily breast milk
+- Primarily infant formula
+- A mixture of breast milk and formula
+- Not sure
+format: str
+remap:
+  BEFORE: AFTER
+normalization:
+  gated_value: Out of bounds
+  maximum: 120
+  minimum: 0
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

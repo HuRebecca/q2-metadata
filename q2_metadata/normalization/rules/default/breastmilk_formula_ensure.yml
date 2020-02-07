@@ -1,0 +1,26 @@
+# variable: breastmilk_formula_ensure
+# blank: "Not applicable"
+# Definition: Does the participant get a majority of their calories from breastmilk, infant formula, or adult nutrition formula?
+# expected: "true", "false", "I eat both solid food and formula/breast milk"
+# Helpful hints: nan
+# missing: "Not provided"
+blank: Not applicable
+expected:
+- true
+- false
+- I eat both solid food and formula/breast milk
+format: str
+missing: Not provided
+remap:
+  BEFORE: AFTER
+normalization:
+  gated_value: Out of bounds
+  maximum: 120
+  minimum: 0
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

@@ -1,0 +1,19 @@
+# variable: elevation
+# blank: "193"
+# expected: "positive integers, i.e. 500"
+blank: 193
+expected:
+- positive integers, i.e. 500
+remap:
+  BEFORE: AFTER
+normalization:
+  gated_value: Out of bounds
+  maximum: 120
+  minimum: 0
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country

@@ -1,0 +1,25 @@
+# variable: public
+# blank: "Not applicable"
+# Definition: Has the sample been made public?
+# expected: "true", "false"
+# Helpful hints: mimarks
+# missing: "Not provided"
+blank: Not applicable
+expected:
+- true
+- false
+format: bool
+missing: Not provided
+remap:
+  BEFORE: AFTER
+normalization:
+  gated_value: Out of bounds
+  maximum: 120
+  minimum: 0
+validation:
+  force_to_null_if:
+    is null:
+    - host_subject_id
+    - host_taxid
+  warn_if_null:
+  - country
