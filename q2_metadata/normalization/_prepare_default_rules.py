@@ -108,17 +108,6 @@ def get_md_temp_dict(md_temp_t: pd.DataFrame) -> dict:
     return md_temp_d
 
 
-def correct_key(key: str, lookup: dict) -> str:
-    """
-    :param key: to potentially edit...
-    :param lookup: ... if present in lookup dict
-    :return: values for the lookup dict key
-    """
-    if key in lookup:
-        return lookup[key]
-    return key
-
-
 def compare_with_agp(var: str, agp_pd: pd.DataFrame, in_agp: dict) -> dict:
     """
     Collect the variables that are in the template metadata
@@ -183,7 +172,7 @@ def get_meta_from_template(
         # collect the unique possible values from template
         md_temp_d = get_md_temp_dict(md_temp_t)
         # edit key in template metadata to the matching name in qiita
-        variable = correct_key(variable_, real_name)
+        variable = real_name.get(variable_, variable_)
         # collect the possible values for the current variable
         files_data[variable] = md_temp_d
         # apply changes to roll back to AGP standards
@@ -253,14 +242,14 @@ def get_meta_from_qiita(
             for k, v in cur_agp_suppl_pd.loc[(cur_agp_suppl_pd.col.isin(red_agp_columns)) &
                                              (~cur_agp_suppl_pd[variable].isna())].values:
                 cur_d[k] = get_factors(v)
+            files_data[variable].update(cur_d)
         else:
             for k,v in cur_agp_suppl_pd.values:
                 if k not in agp_columns:
                     cur_d[k] = v
                 elif k in red_agp_columns and str(v) != 'nan':
                     cur_d[k] = get_factors(v)
-
-        files_data[variable] = cur_d
+            files_data[variable] = cur_d
         derivatives, sources = update_derivative_source(
             cur_agp_suppl_pd, variable, derivatives, sources
         )
