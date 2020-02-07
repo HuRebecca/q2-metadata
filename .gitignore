@@ -76,3 +76,4 @@ venv/
 .DS_Store
 node_modules
 q2_metadata/assets/metadata_template_extra_columns_origin.txt
+.gitignore
