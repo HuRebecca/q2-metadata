@@ -1,0 +1,4 @@
+#SampleID	body_product_	collection_timestamp	country	diabetes	DNA_extracted	fermented_plant_frequency	geo_locname	height_Cm	host_taxid
+A.1	UBERON:tears	2016-11-22	Not applicable	I do not have this condition	Not provided	Occasionally (1-2 times/week)	Not applicable	10	1211
+A.2	UBERON:tears	2016-11-22	USA	Diagnosed by a medical professional (doctor, physician assistant)	Not provided	Never	USA:NY	121	1211
+B.1	UBERON:tears	2016-11-22	USA	Not provided	0.33	Daily	USA:CA	Not applicable	Not provided
