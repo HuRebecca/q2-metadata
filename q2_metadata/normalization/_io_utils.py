@@ -58,7 +58,9 @@ def get_rules(root_dir: str) -> dict:
     for rule_name, rule_path in get_paths_dict(root_dir, "rules").items():
         rule = parse_yml_file(rule_path)
         rules[rule_name] = rule
-    return rules
+
+    rules_dict = get_rules_dict(rules)
+    return rules, rules_dict
 
 
 def get_paths_dict(root_dir: str, db_rule: str) -> dict:
