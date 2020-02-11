@@ -10,6 +10,10 @@
 
 # // Missing values: "Not provided"
 
+# normalization:
+# - No range applicable  # <-- completely remove if "No range applicable"
+
+
 blank: Not applicable
 format: str
 missing: Not provided
@@ -18,8 +22,6 @@ expected:
 - Self-diagnosed
 - Diagnosed by a medical professional (doctor, physician assistant)
 - Diagnosed by an alternative medicine practitioner
-normalization:
-- No range applicable
 validation:
   force_to_blank_if:
     is null:
