@@ -18,8 +18,8 @@ from q2_metadata.normalization._prepare_default_rules import prepare_rules_from_
 
 from q2_metadata.normalization._io_utils import get_rules, get_databases
 from q2_metadata.normalization._check_rules_format import check_rules_issues, check_mandatory_rules
-from q2_metadata.normalization._flags import show_issues, show_missing
-from q2_metadata.normalization._metadata import check_md_rules, get_edits
+from q2_metadata.normalization._flags import show_issues, show_missing, show_equivalent
+from q2_metadata.normalization._metadata import get_edits, get_redundancies, check_md_rules
 
 import pkg_resources
 
@@ -44,14 +44,17 @@ def normalize(metadata: q2.Metadata) -> q2.Metadata:
     #           (1) Qiita metadata (Knight lab website)
     #           (2) AGP metadata variables definitions
     #       COULD BE REVIEWED HERE AND MADE TESTED/REPRODUCIBLE
-    prepare_rules_from_template_and_qiita()
+    # prepare_rules_from_template_and_qiita()
     #  = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+
 
     # =================================================================
     # Get rules business
     rules, rules_dict = get_rules(ROOT)
     issues = check_rules_issues(rules, md)
     missing = check_mandatory_rules(rules)
+
+    # FLAGS
     if issues or missing:
         out_flags = '%s/normalization/outputs/rules_check.txt' % ROOT
         with open(out_flags, 'w') as o:
@@ -61,15 +64,28 @@ def normalize(metadata: q2.Metadata) -> q2.Metadata:
         # sys.exit(1)
     # =================================================================
 
-    print("rules_dict")
-    print(rules_dict)
+    # STOP REVIEW HERE FOR NOW
+    sys.exit(1)
 
     # ==== IN DEV ====
+    # get the yaml rules for each column of the passed metadata
     matches = check_md_rules(md, rules)
-    edits = get_edits(matches, rules)
+    #edits = get_edits(matches, rules)
     # ==== IN DEV ====
 
-    print(kfb)
+
+    # =================================================================
+    # Get redundant columns and factors
+    redundant_columns, redundant_factors = get_redundancies(md, matches)
+    # FLAGS
+    if redundant_columns or redundant_factors:
+        out_flags = '%s/normalization/outputs/md_check.txt' % ROOT
+        with open(out_flags, 'w') as o:
+            show_equivalent(o, redundant_columns, redundant_factors, matches)
+        print('Equivalent columns of factors... see %s\nExiting...' % out_flags)
+        # sys.exit(1)
+    # =================================================================
+
 
     databases = get_databases(ROOT)
 
