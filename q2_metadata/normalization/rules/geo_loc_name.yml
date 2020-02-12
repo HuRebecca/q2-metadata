@@ -27,5 +27,4 @@ remap:
   USA: US
 check:
  - exist
- - ontology
  - typos

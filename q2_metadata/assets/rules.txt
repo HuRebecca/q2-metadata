@@ -34,5 +34,4 @@ validation,dict:
     - variable
 check,txt:
  - exist
- - ontology
  - typos

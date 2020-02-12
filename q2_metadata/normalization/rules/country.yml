@@ -20,5 +20,4 @@ validation:
     - host_taxid
 check:
  - exist
- - ontology
  - typos
