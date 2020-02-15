@@ -11,6 +11,7 @@ format,txt:
   - float
   - int
   - str
+  - date
 missing,txt:
   - not applicable
   - not collected
@@ -25,7 +26,6 @@ normalization,dict:
   minimum,type:
     - int
     - float
-  no range applicable,bool: 1
 remap,dict:
   str: str
 validation,dict:
