@@ -9,26 +9,25 @@
 import datetime
 import pandas as pd
 
-from q2_metadata.normalization._io_utils import get_rules_template
+from q2_metadata.normalization._io_utils import get_variables_rules_template
 
 
-def check_mandatory_rules(rules: dict) -> dict:
+def check_mandatory_rules(variables_rules: dict, mandatory_rules: list) -> dict:
     """
-    :param rules:
+    :param variables_rules:
         Keys    = for the current variable,
         Values  = dict of rule -> values
+    :param mandatory_rules: within-variable rules that must be applied (from assets/rules.txt).
     :return: list of lists such as ['variable', 'rule', 1]
         'variable' is the current file name / metadata variable.
         'rule' is the current rule in the file.
         1 is when the rule is missing in the reference.
     """
-    # mandatory_rules = ['blank', 'format', 'missing']
-    mandatory_rules = ['format']
     missing = {}
-    for rule_name, rule in rules.items():
+    for variable, variable_rule in variables_rules.items():
         for mandatory_rule in mandatory_rules:
-            if mandatory_rule not in rule:
-                missing.setdefault(mandatory_rule, []).append(rule_name)
+            if mandatory_rule not in variable_rule:
+                missing.setdefault(mandatory_rule, []).append(variable)
     return missing
 
 
@@ -129,7 +128,7 @@ def get_rules_template_keys(rules_template: dict) -> dict:
     return rules_template_keys
 
 
-def traverse_rules(rule_name: str, rule: dict, rules_template: dict, issues: list, md: pd.DataFrame) -> list:
+def traverse_variables_rules(rule_name: str, rule: dict, rules_template: dict, issues: list, md: pd.DataFrame) -> list:
     """
     Go through the nested dict structure of the actual, current rules parsed from the yml into
     a dict, and check that the values associated with each rule are indeed as expected.
@@ -172,7 +171,7 @@ def traverse_rules(rule_name: str, rule: dict, rules_template: dict, issues: lis
                 continue
             # ... or keep going
             else:
-                issues = traverse_rules(rule_name, v, v_exp, issues, md)
+                issues = traverse_variables_rules(rule_name, v, v_exp, issues, md)
         else:
             if typ == 'dict':
                 issues.append([rule_name, typ, k, v, v_exp, 'value is a mapping'])
@@ -191,10 +190,10 @@ def traverse_rules(rule_name: str, rule: dict, rules_template: dict, issues: lis
     return issues
 
 
-def check_rules_issues(rules: dict, md: pd.DataFrame) -> list:
-    rules_template = get_rules_template()
+def check_variables_rules(variables_rules: dict, md: pd.DataFrame) -> list:
+    variables_rules_template = get_variables_rules_template()
     issues = []
-    for rule_name, rule in rules.items():
+    for rule_name, variables_rule in variables_rules.items():
         # check that the passed rules are in correct format and types
-        issues = traverse_rules(rule_name, rule, rules_template, issues, md)
+        issues = traverse_variables_rules(rule_name, variables_rule, variables_rules_template, issues, md)
     return issues
