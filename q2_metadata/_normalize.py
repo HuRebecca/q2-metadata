@@ -6,20 +6,12 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 
-import sys
-from os.path import abspath, dirname
-
 import qiime2 as q2
 import pandas as pd
 
-# writing default rule.yml files based on metadata standards (KL template + AGP suppl)
-# --> NEEDS TO BE REVIEWED AND VALIDATED BY GAIL / EXPERT KNOWLEDGE
-from q2_metadata.normalization._prepare_default_rules import prepare_rules_from_template_and_qiita
-
-from q2_metadata.normalization._io_utils import get_rules, get_databases
-from q2_metadata.normalization._check_rules_format import check_rules_issues, check_mandatory_rules
+from q2_metadata.normalization._io_utils import get_variables_rules, get_databases
 from q2_metadata.normalization._flags import show_issues, show_missing, show_equivalent
-from q2_metadata.normalization._metadata import get_edits, get_redundancies, check_md_rules
+from q2_metadata.normalization._metadata import get_edits, get_redundancies, get_md_rules_venn
 
 import pkg_resources
 
@@ -39,56 +31,29 @@ def normalize(metadata: q2.Metadata) -> q2.Metadata:
     # Get metadata as pandas data frame
     md = metadata.to_dataframe()
 
-    #  = = = = THIS WILL PROBABLY NOT BE HERE IN THE PACKAGE = = = = =
-    #       BUT I FIGURED MY PARSING OF THE RULES DEFAULTS FROM
-    #           (1) Qiita metadata (Knight lab website)
-    #           (2) AGP metadata variables definitions
-    #       COULD BE REVIEWED HERE AND MADE TESTED/REPRODUCIBLE
-    # prepare_rules_from_template_and_qiita()
-    #  = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+    # Get rules
+    mandatory_rules = ['format'] #['blank', 'format', 'missing']
+    variables_rules, variables_rules_dict = get_variables_rules(ROOT)
 
-
-    # =================================================================
-    # Get rules business
-    rules, rules_dict = get_rules(ROOT)
-    issues = check_rules_issues(rules, md)
-    missing = check_mandatory_rules(rules)
-
-    # FLAGS
-    if issues or missing:
-        out_flags = '%s/normalization/outputs/rules_check.txt' % ROOT
-        with open(out_flags, 'w') as o:
-            show_issues(o, issues)
-            show_missing(o, missing)
-        print('Issues/Missing rules... see %s\nExiting...' % out_flags)
-        # sys.exit(1)
-    # =================================================================
-
-    # STOP REVIEW HERE FOR NOW
-    sys.exit(1)
-
-    # ==== IN DEV ====
+    # ==== IN DEV (i.e. to be explained in next PR) ======
     # get the yaml rules for each column of the passed metadata
-    matches = check_md_rules(md, rules)
-    #edits = get_edits(matches, rules)
-    # ==== IN DEV ====
+    venn = get_md_rules_venn(md, variables_rules)
 
-
-    # =================================================================
     # Get redundant columns and factors
-    redundant_columns, redundant_factors = get_redundancies(md, matches)
+    redundant_variable, redundant_factors = get_redundancies(md)
     # FLAGS
-    if redundant_columns or redundant_factors:
+    if redundant_variable or redundant_factors:
         out_flags = '%s/normalization/outputs/md_check.txt' % ROOT
         with open(out_flags, 'w') as o:
-            show_equivalent(o, redundant_columns, redundant_factors, matches)
+            show_equivalent(o, redundant_variable, redundant_factors, venn)
         print('Equivalent columns of factors... see %s\nExiting...' % out_flags)
         # sys.exit(1)
-    # =================================================================
 
+    outputs, log = get_edits(md, venn, variables_rules,
+                             mandatory_rules, variables_rules_dict)
+    # ====================================================
 
     databases = get_databases(ROOT)
-
     # md_out = do_normalize(md, rules)
 
     # only during dev so that the function return something :)
