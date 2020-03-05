@@ -36,9 +36,14 @@ def normalize(metadata: q2.Metadata, rules_dir: q2.plugin.Str) -> q2.Metadata:
 
     # Collect rules from yaml files folder
     rules = RulesCollection(variables_rules_dir)
+
     # Get metadata as pandas data frame
     md = metadata.to_dataframe()
+
+    # get metadata variables that have rules
     focus = get_intersection(rules.get_variables_names(), md.columns.tolist())
+
+    # apply rules one variable at a time
     # for variable in focus:
     #     md[variable] = rules.normalize(variable, md[variable])
 
