@@ -34,7 +34,7 @@ def normalize(metadata: q2.Metadata, rules_dir: q2.plugin.Str) -> q2.Metadata:
     if not variables_rules_dir:
         variables_rules_dir = RULES
 
-    # Collect rules from yaml files folder
+    # Collect rules from yaml files folder by instantiating a class
     rules = RulesCollection(variables_rules_dir)
 
     # Get metadata as pandas data frame
