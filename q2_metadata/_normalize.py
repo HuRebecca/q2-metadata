@@ -8,58 +8,40 @@
 
 import qiime2 as q2
 import pandas as pd
-
-from q2_metadata.normalization._io_utils import get_variables_rules, get_databases
-from q2_metadata.normalization._flags import show_issues, show_missing, show_equivalent
-from q2_metadata.normalization._metadata import get_edits, get_redundancies, get_md_rules_venn
-
 import pkg_resources
 
-ROOT = pkg_resources.resource_filename("q2_metadata", "")
+from q2_metadata.normalization._norm_utils import get_intersection
+from q2_metadata.normalization._norm_rules import RulesCollection
+
+RULES = pkg_resources.resource_filename("q2_metadata", "")
 
 
-# annotate how types are expected to be passed to the function
-# (explicit declare that first arg should be metadata class)
-def normalize(metadata: q2.Metadata) -> q2.Metadata:
+def normalize(metadata: q2.Metadata, rules_dir: q2.plugin.Str) -> q2.Metadata:
     """
-    :param metadata:
-        Input metadata file
-    :return:
-        A curated metadata table.
-    """
+    Parameters
+    ----------
+    metadata : q2.Metadata
+        The sample metadata.
+    rules_dir : q2.plugin.Str
+        The path to the yaml rules folder.
 
+    Returns
+    -------
+    metadata_curated : q2.Metadata
+        Curated metadata table.
+    """
+    variables_rules_dir = str(rules_dir)
+    if not variables_rules_dir:
+        variables_rules_dir = RULES
+
+    # Collect rules from yaml files folder
+    rules = RulesCollection(variables_rules_dir)
     # Get metadata as pandas data frame
     md = metadata.to_dataframe()
-
-    # Get rules
-    mandatory_rules = ['format'] #['blank', 'format', 'missing']
-    variables_rules, variables_rules_dict = get_variables_rules(ROOT)
-
-    # ==== IN DEV (i.e. to be explained in next PR) ======
-    # get the yaml rules for each column of the passed metadata
-    venn = get_md_rules_venn(md, variables_rules)
-
-    # Get redundant columns and factors
-    redundant_variable, redundant_factors = get_redundancies(md)
-    # FLAGS
-    if redundant_variable or redundant_factors:
-        out_flags = '%s/normalization/outputs/md_check.txt' % ROOT
-        with open(out_flags, 'w') as o:
-            show_equivalent(o, redundant_variable, redundant_factors, venn)
-        print('Equivalent columns of factors... see %s\nExiting...' % out_flags)
-        # sys.exit(1)
-
-    outputs, log = get_edits(md, venn, variables_rules,
-                             mandatory_rules, variables_rules_dict)
-    # ====================================================
-
-    databases = get_databases(ROOT)
-    # md_out = do_normalize(md, rules)
+    focus = get_intersection(rules.get_variables_names(), md.columns.tolist())
+    # for variable in focus:
+    #     md[variable] = rules.normalize(variable, md[variable])
 
     # only during dev so that the function return something :)
-    md_out = pd.DataFrame({
-        'sampleid': ['A', 'B'],
-        'col1': ['1', '2'],
-        'col2': ['3', '4']
-    }).set_index('sampleid')
+    md_out = pd.DataFrame()
     return q2.Metadata(md_out)
