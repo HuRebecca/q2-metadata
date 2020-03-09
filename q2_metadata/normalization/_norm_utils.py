@@ -29,3 +29,27 @@ def get_intersection(variables_rules: list, md_columns: list) -> list:
             "No metadata columns associated with yaml rules."
         )
     return sorted(intersection)
+
+
+def get_variables_rules_dir(rules_dir: str, RULES: str) -> str:
+    """
+    Get the path to the folder where
+    the .yml rules files are located.
+
+    TEMPORARY FUNCTION TO PASS THE DEFAULT FOLDER CONTAINING OUR 8 RULES
+    (A REAL USER SHOULD PASS ANOTHER FOLDER LOCATION TO '--p-rules-dir')
+
+    Parameters
+    ----------
+    rules_dir : str
+        Path passed on command.
+
+    Returns
+    -------
+        Folder path.
+    """
+    variables_rules_dir = str(rules_dir)
+    if not variables_rules_dir:
+        variables_rules_dir = RULES
+    return variables_rules_dir
+
