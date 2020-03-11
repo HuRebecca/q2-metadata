@@ -25,7 +25,6 @@ setup(
     },
     package_data={
         'q2_metadata': ['templates/tabulate/*',
-                        'normalization/databases/*',
                         'normalization/rules/*.yml'],
     },
     zip_safe=False,
