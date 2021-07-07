@@ -8,7 +8,7 @@
 
 import importlib
 import qiime2.plugin
-from qiime2.plugin import MetadataColumn, Numeric, Metadata
+from qiime2.plugin import MetadataColumn, Numeric, Metadata, Str
 
 from q2_metadata import tabulate, distance_matrix, __version__
 from q2_types.distance_matrix import DistanceMatrix
@@ -49,8 +49,14 @@ plugin.methods.register_function(
 plugin.methods.register_function(
     function=normalize,
     inputs={},
-    parameters={'metadata': Metadata},
-    parameter_descriptions={'metadata': 'The sample metadata.'},
+    parameters={
+        'metadata': Metadata,
+        'rules_dir': Str
+    },
+    parameter_descriptions={
+        'metadata': 'The sample metadata.',
+        'rules_dir': 'The path to the yaml rules folder.'
+    },
     outputs=[('curated_metadata', MetadataX)],
     output_descriptions={'curated_metadata': 'The curated sample metadata.'},
     name='Normalize metadata',
